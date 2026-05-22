@@ -13,7 +13,7 @@
  * case metadata and navigation links.
  */
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Link from "next/link";
 import type { RouterOutputs } from "@repo/trpc/client";
 import { DossierStamp } from "~/components/dossier/stamp";
@@ -30,9 +30,13 @@ type SubmitSuccessScreenProps = {
 };
 
 // Each staggered line fades up into place — typewriter-report feel
-const lineVariants = {
+const lineVariants: Variants = {
   hidden: { opacity: 0, y: 8 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.38, ease: "easeOut" } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.38, ease: [0.4, 0, 0.2, 1] },
+  },
 };
 
 // Parent container: delays children until after stamp + seal animation
