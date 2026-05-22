@@ -4,9 +4,7 @@ import { afterEach, describe, it } from "node:test";
 import { cleanupForm, cleanupUser, createTestUser } from "./helpers/fixtures.js";
 import { formService } from "./helpers/services.js";
 
-function isPlanLimitError(
-  error: unknown,
-): error is Error & { reason: string; plan: string } {
+function isPlanLimitError(error: unknown): error is Error & { reason: string; plan: string } {
   return (
     error instanceof Error &&
     error.name === "PlanLimitError" &&

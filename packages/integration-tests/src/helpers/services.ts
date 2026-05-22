@@ -12,18 +12,18 @@ function resolveDefault<T>(mod: unknown): Constructable<T> {
   return (mod as { default: Constructable<T> }).default;
 }
 
-export const analyticsService: InstanceType<typeof AnalyticsServiceImport> = new (
-  resolveDefault<InstanceType<typeof AnalyticsServiceImport>>(AnalyticsServiceImport)
-)();
+export const analyticsService: InstanceType<typeof AnalyticsServiceImport> = new (resolveDefault<
+  InstanceType<typeof AnalyticsServiceImport>
+>(AnalyticsServiceImport))();
 
-export const formService: InstanceType<typeof FormServiceImport> = new (
-  resolveDefault<InstanceType<typeof FormServiceImport>>(FormServiceImport)
-)();
+export const formService: InstanceType<typeof FormServiceImport> = new (resolveDefault<
+  InstanceType<typeof FormServiceImport>
+>(FormServiceImport))();
 
-export const publicService: InstanceType<typeof PublicServiceImport> = new (
-  resolveDefault<InstanceType<typeof PublicServiceImport>>(PublicServiceImport)
-)();
+export const publicService: InstanceType<typeof PublicServiceImport> = new (resolveDefault<
+  InstanceType<typeof PublicServiceImport>
+>(PublicServiceImport))();
 
-export const responseService: InstanceType<typeof ResponseServiceImport> = new (
-  resolveDefault<InstanceType<typeof ResponseServiceImport>>(ResponseServiceImport)
-)();
+export const responseService: InstanceType<typeof ResponseServiceImport> = new (resolveDefault<
+  InstanceType<typeof ResponseServiceImport>
+>(ResponseServiceImport))();
