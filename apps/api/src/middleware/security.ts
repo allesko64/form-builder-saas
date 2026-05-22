@@ -18,6 +18,38 @@ const BLOCKED_BODY_KEYS = new Set(["__proto__", "constructor", "prototype"]);
 /** Paths that skip origin checks (health, docs, Better Auth). */
 const CSRF_EXEMPT_PREFIXES = ["/health", "/openapi.json", "/api/auth"];
 
+/** Paths excluded from the global IP rate limit (session polling, OAuth, etc.). */
+const RATE_LIMIT_EXEMPT_PREFIXES = ["/health", "/api/auth"];
+
+function getRateLimitClientKey(req: Request): string {
+  const forwarded = req.headers["x-forwarded-for"];
+  if (typeof forwarded === "string" && forwarded.length > 0) {
+    const client = forwarded.split(",")[0]?.trim();
+    if (client) return client;
+  }
+  return req.ip ?? req.socket.remoteAddress ?? "unknown";
+}
+
+/**
+ * Skip global rate limit for health/auth and tRPC reads (GET).
+ * Mutations stay capped; form submissions also use enforceSubmissionRateLimit.
+ */
+function isRateLimitExempt(req: Request): boolean {
+  if (
+    RATE_LIMIT_EXEMPT_PREFIXES.some(
+      (prefix) => req.path === prefix || req.path.startsWith(`${prefix}/`),
+    )
+  ) {
+    return true;
+  }
+
+  if (req.method === "GET" && (req.path === "/trpc" || req.path.startsWith("/trpc/"))) {
+    return true;
+  }
+
+  return false;
+}
+
 function normalizeOrigin(value: string): string | null {
   try {
     return new URL(value).origin;
@@ -113,7 +145,8 @@ function createGlobalRateLimiter() {
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Too Many Requests", message: "Rate limit exceeded. Try again later." },
-    skip: (req) => req.path === "/health",
+    keyGenerator: getRateLimitClientKey,
+    skip: isRateLimitExempt,
   };
 
   if (redis) {
