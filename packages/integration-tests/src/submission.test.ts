@@ -33,7 +33,7 @@ describe("public submission (integration)", () => {
         answers: { [form.fieldId]: "Valid answer" },
         completionTimeMs: 3000,
       },
-      { terminalHash, userAgent: "integration-test" },
+      { terminalHash, userAgent: "integration-test", submitterEmail: null },
     );
 
     assert.deepEqual(ok, { success: true });
@@ -44,7 +44,11 @@ describe("public submission (integration)", () => {
         submissionId: randomUUID(),
         answers: {},
       },
-      { terminalHash: `other-${randomUUID()}`, userAgent: "integration-test" },
+      {
+        terminalHash: `other-${randomUUID()}`,
+        userAgent: "integration-test",
+        submitterEmail: null,
+      },
     );
 
     assert.ok(bad && "error" in bad && bad.error === "validation");
@@ -66,7 +70,7 @@ describe("public submission (integration)", () => {
         submissionId: randomUUID(),
         answers: { [form.fieldId]: "One" },
       },
-      { terminalHash: `t-${randomUUID()}`, userAgent: null },
+      { terminalHash: `t-${randomUUID()}`, userAgent: null, submitterEmail: null },
     );
     assert.deepEqual(first, { success: true });
 
@@ -76,7 +80,7 @@ describe("public submission (integration)", () => {
         submissionId: randomUUID(),
         answers: { [form.fieldId]: "Two" },
       },
-      { terminalHash: `t-${randomUUID()}`, userAgent: null },
+      { terminalHash: `t-${randomUUID()}`, userAgent: null, submitterEmail: null },
     );
     assert.ok(second && "error" in second && second.error === "limit_reached");
   });

@@ -5,6 +5,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import React, { useState } from "react";
 import { Toaster } from "~/components/ui/sonner";
 
+import { ChunkLoadRecovery } from "~/components/chunk-load-recovery";
 import { trpc } from "~/trpc/client";
 import { createTRPCHttpBatchClientClient } from "~/trpc/create-client";
 
@@ -32,6 +33,7 @@ export const GlobalProviders: React.FC<{ children: React.ReactNode }> = ({ child
         disableTransitionOnChange
       >
         <trpc.Provider queryClient={queryClient} client={trpcClient}>
+          <ChunkLoadRecovery />
           {children}
           <Toaster />
         </trpc.Provider>

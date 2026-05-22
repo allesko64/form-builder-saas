@@ -130,10 +130,10 @@ export function FormSettingsPanel({
           setDraft(next);
           onApplyNowAction(settingsDraftToPatch(next, "collectRespondentEmail"));
         }}
-        label="SEND RESPONDENT CONFIRMATION EMAIL"
+        label="ALLOW SIGNED-IN RESPONDENT CONFIRMATION EMAIL"
         offLabel="DISABLED"
         onLabel="ENABLED"
-        description="When enabled, respondents receive a copy of their answers at the email address from an email field on this form. Requires Resend configured on the server."
+        description="When enabled, signed-in respondents can opt in to receive a confirmation copy at their account email. Anonymous visitors on the public link will not see this option. Requires Resend (RESEND_API_KEY, EMAIL_FROM) on the server."
       />
     </div>
   );

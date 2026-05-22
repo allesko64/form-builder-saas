@@ -32,6 +32,8 @@ export type SubmitContext = {
   /** Hashed terminal fingerprint (stored in `responses.ip_hash`). */
   terminalHash: string | null;
   userAgent: string | null;
+  /** Signed-in submitter account email; null for anonymous public visitors. */
+  submitterEmail: string | null;
 };
 
 export type SubmitResult =
@@ -190,9 +192,11 @@ class PublicService {
 
     const validated = parsed.data as Record<string, string | number | boolean | string[] | null>;
 
-    const respondentEmail = form.collectRespondentEmail
-      ? this.extractRespondentEmail(fields, validated)
-      : null;
+    const respondentOptedIn = input.sendConfirmationEmail ?? true;
+    const respondentEmail =
+      form.collectRespondentEmail && ctx.submitterEmail && respondentOptedIn
+        ? ctx.submitterEmail
+        : null;
 
     const planAllowsResponse = await billingService.canAcceptResponse(form.userId);
     if (!planAllowsResponse) {
@@ -226,19 +230,7 @@ class PublicService {
       value: formatAnswerValue(validated[field.id]),
     }));
 
-    emailService
-      .notifyCreator({
-        formId: form.id,
-        formTitle: form.title,
-        submittedAt,
-        answersSummary,
-      })
-      .catch((err) => logger.error("Failed to send creator notification", err));
-
-    // Only send if the form has email collection enabled AND the respondent opted in
-    // (sendConfirmationEmail defaults to true for backward compatibility).
-    const respondentOptedIn = input.sendConfirmationEmail ?? true;
-    if (form.collectRespondentEmail && respondentEmail && respondentOptedIn) {
+    if (respondentEmail) {
       const viewReportUrl = this.buildSubmissionReceiptUrl(form.slug, input.submissionId);
       emailService
         .notifyRespondent({
@@ -307,17 +299,6 @@ class PublicService {
       .limit(1);
 
     return form ?? null;
-  }
-
-  private extractRespondentEmail(
-    fields: (typeof formFieldsTable.$inferSelect)[],
-    answers: Record<string, string | number | boolean | string[] | null>,
-  ): string | null {
-    const emailField = fields.find((f) => f.type === "email");
-    if (!emailField) return null;
-
-    const value = answers[emailField.id];
-    return typeof value === "string" && value.length > 0 ? value : null;
   }
 
   private buildSubmissionReceiptUrl(slug: string, submissionId: string): string | undefined {

@@ -12,8 +12,11 @@ import { getVisibleFields } from "./field-visibility";
 export function buildZodSchema(
   fields: FormField[],
   answers?: Record<string, unknown>,
-): z.ZodObject<Record<string, z.ZodTypeAny>> {
+): z.ZodType<Record<string, unknown>> {
   const shape: Record<string, z.ZodTypeAny> = {};
+  const optionalEmailFieldIds = new Set(
+    fields.filter((field) => field.type === "email" && !field.required).map((field) => field.id),
+  );
 
   const fieldsToValidate =
     answers !== undefined
@@ -25,5 +28,18 @@ export function buildZodSchema(
   }
 
   // Reject answer keys that are not on this form / not currently visible (Layer 6).
-  return z.object(shape).strict();
+  return z.preprocess((input) => {
+    if (!input || typeof input !== "object" || Array.isArray(input)) {
+      return input;
+    }
+
+    const nextInput = { ...(input as Record<string, unknown>) };
+    for (const fieldId of optionalEmailFieldIds) {
+      if (nextInput[fieldId] === "") {
+        delete nextInput[fieldId];
+      }
+    }
+
+    return nextInput;
+  }, z.object(shape).strict());
 }

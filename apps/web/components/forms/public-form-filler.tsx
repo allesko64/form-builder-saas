@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSession } from "@repo/auth/client";
 import { buildZodSchema, getVisibleFields, pruneHiddenAnswers } from "@repo/validators";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -12,6 +13,7 @@ import { DossierStamp } from "~/components/dossier/stamp";
 import { FormFieldRenderer } from "~/components/forms/form-field-renderer";
 import { SubmitSuccessScreen } from "~/components/forms/submit-success-screen";
 import { DossierToggle } from "~/components/dossier/toggle";
+import { usePrefillEmailFields } from "~/hooks/use-prefill-email-fields";
 import { getSubmissionReceipts, saveSubmissionReceipt } from "~/lib/submission-receipts";
 import { trpc } from "~/trpc/client";
 
@@ -49,7 +51,17 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
 
   const startMsRef = useRef<number | null>(null);
 
+  const { data: session } = useSession();
   const { data: form, isPending, isError, error } = trpc.public.getForm.useQuery({ slug });
+
+  const canOfferConfirmationEmail = !!form?.collectRespondentEmail && !!session?.user;
+
+  const { showAutofillHint } = usePrefillEmailFields(
+    form?.id,
+    form?.fields,
+    session?.user?.email,
+    setAnswers,
+  );
 
   // Server enforces one submission per terminal (IP hash); localStorage is UX-only.
   useEffect(() => {
@@ -116,8 +128,7 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form?.id, currentStep, existingSubmissionId]);
 
-  // True when the form has collectRespondentEmail and the current step is the last
-  const showEmailToggle = (isLastStep: boolean) => isLastStep && !!form?.collectRespondentEmail;
+  const showEmailToggle = (isLastStep: boolean) => isLastStep && canOfferConfirmationEmail;
 
   function markStarted() {
     if (startMsRef.current === null) {
@@ -140,11 +151,11 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
     const field = visibleFields[currentStep];
     if (!field) return true;
 
-    const partialSchema = zodSchema.pick({ [field.id]: true } as Record<string, true>);
+    const partialSchema = buildZodSchema([field], answers);
     const result = partialSchema.safeParse({ [field.id]: answers[field.id] });
 
     if (!result.success) {
-      const issues = z.flattenError(result.error).fieldErrors;
+      const issues = z.flattenError(result.error).fieldErrors as Record<string, string[] | undefined>;
       const next: Record<string, string> = {};
       for (const [key, msgs] of Object.entries(issues)) {
         if (msgs?.[0]) next[key] = msgs[0];
@@ -183,7 +194,7 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
 
     const parsed = zodSchema.safeParse(answers);
     if (!parsed.success) {
-      const issues = z.flattenError(parsed.error).fieldErrors;
+      const issues = z.flattenError(parsed.error).fieldErrors as Record<string, string[] | undefined>;
       const next: Record<string, string> = {};
       for (const [key, msgs] of Object.entries(issues)) {
         if (msgs?.[0]) next[key] = msgs[0];
@@ -201,7 +212,7 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
       submissionId,
       answers: parsed.data,
       completionTimeMs,
-      sendConfirmationEmail: form.collectRespondentEmail ? sendConfirmationEmail : false,
+      sendConfirmationEmail: canOfferConfirmationEmail ? sendConfirmationEmail : false,
     });
   }
 
@@ -276,7 +287,7 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
         answers={answers}
         slug={slug}
         submissionId={submissionId}
-        emailSent={form.collectRespondentEmail && sendConfirmationEmail}
+        emailSent={canOfferConfirmationEmail && sendConfirmationEmail}
       />
     );
   }
@@ -391,6 +402,7 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
                 value={answers[field.id]}
                 onChange={(v) => handleChange(field.id, v)}
                 showLabel={false}
+                emailAutofillHint={field.type === "email" && showAutofillHint}
               />
             </div>
 
@@ -423,7 +435,11 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
                   label="DISPATCH CONFIRMATION COPY"
                   offLabel="NO"
                   onLabel="YES"
-                  description="Send a copy of your responses to the email address you provided."
+                  description={
+                    session?.user?.email
+                      ? `Send a copy of your responses to ${session.user.email}.`
+                      : "Send a copy of your responses to your account email."
+                  }
                 />
               </div>
             )}

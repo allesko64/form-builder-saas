@@ -1,20 +1,31 @@
 "use client";
 
+import { useSession } from "@repo/auth/client";
 import type { RouterOutputs } from "@repo/trpc/client";
 import { getVisibleFields } from "@repo/validators";
+
 import { FormFieldRenderer } from "~/components/forms/form-field-renderer";
 import { DossierStamp } from "~/components/dossier/stamp";
+import { usePrefillEmailFields } from "~/hooks/use-prefill-email-fields";
 
 type Form = RouterOutputs["form"]["getById"];
 
 type FormPreviewProps = {
   form: Form;
   previewValues: Record<string, unknown>;
-  onPreviewChange: (fieldId: string, value: unknown) => void;
+  setPreviewValues: React.Dispatch<React.SetStateAction<Record<string, unknown>>>;
 };
 
-export function FormPreview({ form, previewValues, onPreviewChange }: FormPreviewProps) {
+export function FormPreview({ form, previewValues, setPreviewValues }: FormPreviewProps) {
+  const { data: session } = useSession();
   const visible = getVisibleFields(form.fields, previewValues);
+
+  const { showAutofillHint } = usePrefillEmailFields(
+    form.id,
+    form.fields,
+    session?.user?.email,
+    setPreviewValues,
+  );
 
   return (
     <div className="border-2 border-[var(--color-ink)] bg-[var(--color-paper)] p-6 md:p-8">
@@ -44,7 +55,8 @@ export function FormPreview({ form, previewValues, onPreviewChange }: FormPrevie
               key={field.id}
               field={field}
               value={previewValues[field.id]}
-              onChange={(v) => onPreviewChange(field.id, v)}
+              onChange={(v) => setPreviewValues((prev) => ({ ...prev, [field.id]: v }))}
+              emailAutofillHint={field.type === "email" && showAutofillHint}
             />
           ))}
         </div>

@@ -67,6 +67,7 @@ export const publicRouter = router({
       const result = await publicService.submit(input, {
         terminalHash: ctx.terminalHash,
         userAgent: ctx.userAgent,
+        submitterEmail: ctx.user?.email ?? null,
       });
 
       if ("error" in result) {

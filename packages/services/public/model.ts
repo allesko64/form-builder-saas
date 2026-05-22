@@ -39,8 +39,8 @@ export const submitFormInputSchema = z.object({
   submissionId: z.uuid(),
   answers: z.record(z.string(), z.unknown()),
   completionTimeMs: z.number().int().nonnegative().optional(),
-  // Respondent's opt-in choice when the form has collectRespondentEmail enabled.
-  // Defaults to true for backward compatibility (old clients don't send this field).
+  // Opt-in for confirmation email; only applies when the submitter is signed in and
+  // the form has collectRespondentEmail enabled. Defaults to true when omitted.
   sendConfirmationEmail: z.boolean().optional(),
 });
 

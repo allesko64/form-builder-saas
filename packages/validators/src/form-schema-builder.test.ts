@@ -31,6 +31,17 @@ describe("buildZodSchema", () => {
     assert.deepEqual(schema.parse({ "opt-1": undefined }), { "opt-1": undefined });
   });
 
+  it("accepts empty optional email fields and rejects invalid email strings", () => {
+    const schema = buildZodSchema([field({ id: "email-1", type: "email", required: false })]);
+
+    assert.deepEqual(schema.parse({}), {});
+    assert.deepEqual(schema.parse({ "email-1": "" }), {});
+    assert.throws(() => schema.parse({ "email-1": "not-an-email" }));
+    assert.deepEqual(schema.parse({ "email-1": "user@example.com" }), {
+      "email-1": "user@example.com",
+    });
+  });
+
   it("rejects select values not in options", () => {
     const schema = buildZodSchema([
       field({

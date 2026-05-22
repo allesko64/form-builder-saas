@@ -307,9 +307,6 @@ importers:
 
   packages/email:
     dependencies:
-      '@repo/database':
-        specifier: workspace:*
-        version: link:../database
       '@repo/logger':
         specifier: workspace:*
         version: link:../logger
@@ -563,6 +560,9 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
       eslint:
         specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)

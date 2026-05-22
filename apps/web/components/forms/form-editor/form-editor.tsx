@@ -283,9 +283,7 @@ export function FormEditor({ formId }: FormEditorProps) {
           <FormPreview
             form={form}
             previewValues={previewValues}
-            onPreviewChange={(fieldId, value) =>
-              setPreviewValues((prev) => ({ ...prev, [fieldId]: value }))
-            }
+            setPreviewValues={setPreviewValues}
           />
         </div>
       ) : (

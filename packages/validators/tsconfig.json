@@ -1,5 +1,11 @@
 {
-  "extends": "@repo/typescript-config/base.json",
-  "include": ["src"],
-  "exclude": ["node_modules", "src/**/*.test.ts"]
+  "extends": "@repo/typescript-config/node.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

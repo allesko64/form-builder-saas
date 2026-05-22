@@ -22,9 +22,9 @@ export const FIELD_TYPE_CATALOG: FieldTypeMeta[] = [
   },
   {
     type: "email",
-    label: "SECURE CHANNEL",
-    description: "Encrypted contact address",
-    defaultLabel: "Secure channel",
+    label: "EMAIL",
+    description: "Email address; auto-filled when signed in",
+    defaultLabel: "Email address",
   },
   {
     type: "number",

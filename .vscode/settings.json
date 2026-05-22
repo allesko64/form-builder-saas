@@ -12,5 +12,6 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "tailwindCSS.experimental.configFile": "apps/web/app/globals.css"
+  "tailwindCSS.experimental.configFile": "apps/web/app/globals.css",
+  "js/ts.tsdk.path": "node_modules/typescript/lib"
 }

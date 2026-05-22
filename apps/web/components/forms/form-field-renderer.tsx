@@ -1,5 +1,3 @@
-"use client";
-
 import type { RouterOutputs } from "@repo/trpc/client";
 import { cn } from "~/lib/utils";
 
@@ -14,6 +12,8 @@ type FormFieldRendererProps = {
   onChange: (value: unknown) => void;
   disabled?: boolean;
   showLabel?: boolean;
+  /** When true, shows helper text that email was pre-filled from the signed-in account. */
+  emailAutofillHint?: boolean;
 };
 
 export function FormFieldRenderer({
@@ -22,6 +22,7 @@ export function FormFieldRenderer({
   onChange,
   disabled,
   showLabel = true,
+  emailAutofillHint = false,
 }: FormFieldRendererProps) {
   const options = field.validationConfig?.options ?? [];
 
@@ -38,14 +39,21 @@ export function FormFieldRenderer({
       {field.helpText ? <p className="dossier-body text-sm">{field.helpText}</p> : null}
 
       {field.type === "short_text" || field.type === "email" ? (
-        <input
-          type={field.type === "email" ? "email" : "text"}
-          className={inputClass}
-          placeholder={field.placeholder ?? undefined}
-          value={(value as string) ?? ""}
-          disabled={disabled}
-          onChange={(e) => onChange(e.target.value)}
-        />
+        <>
+          <input
+            type={field.type === "email" ? "email" : "text"}
+            className={inputClass}
+            placeholder={field.placeholder ?? undefined}
+            value={(value as string) ?? ""}
+            disabled={disabled}
+            onChange={(e) => onChange(e.target.value)}
+          />
+          {field.type === "email" && emailAutofillHint ? (
+            <p className="dossier-meta text-[var(--color-ink-faded)]">
+              Pre-filled from your account — you may change this.
+            </p>
+          ) : null}
+        </>
       ) : null}
 
       {field.type === "long_text" ? (

@@ -116,6 +116,15 @@ const fieldValueSchemaFactories = {
 
 /** Value schema for one form field (keyed by field id in `buildZodSchema`). */
 export function buildFieldValueSchema(field: FormField): z.ZodTypeAny {
+  if (field.type === "email" && !field.required) {
+    return z
+      .string()
+      .refine((val) => val === "" || z.email().safeParse(val).success, "Invalid email address")
+      .transform((val) => (val === "" ? undefined : val))
+      .optional()
+      .nullable();
+  }
+
   const factory = fieldValueSchemaFactories[field.type];
   const schema = factory(field.validationConfig ?? null);
   return field.required ? schema : schema.optional().nullable();
