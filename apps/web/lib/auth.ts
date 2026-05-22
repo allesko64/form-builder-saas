@@ -2,9 +2,10 @@
 export function getAuthBaseUrl(requestOrigin?: string): string {
   if (requestOrigin) return requestOrigin;
   return (
+    process.env.AUTH_SERVER_URL ??
     process.env.NEXT_PUBLIC_AUTH_URL ??
     process.env.NEXT_PUBLIC_WEB_APP_URL ??
-    "http://localhost:3000"
+    "http://localhost:8000"
   );
 }
 

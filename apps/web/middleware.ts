@@ -9,7 +9,6 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const session = await getSessionFromRequest(
     request.headers.get("cookie"),
-    request.nextUrl.origin,
   );
   const isAuthed = !!session?.user;
 
