@@ -2,16 +2,11 @@
   "name": "@repo/realtime",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.cts",
-      "default": "./dist/index.js"
-    }
+    ".": "./dist/index.cjs"
   },
   "scripts": {
-    "build": "tsup",
-    "check-types": "tsc --noEmit"
+    "build": "tsup"
   },
   "dependencies": {
     "@repo/database": "workspace:*",

@@ -7,6 +7,6 @@ export default defineConfig({
   outDir: "dist",
   clean: true,
   outExtension() {
-    return { js: ".js" };
+    return { js: ".cjs" };
   },
 });
