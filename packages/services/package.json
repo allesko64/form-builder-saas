@@ -33,7 +33,6 @@
     "@repo/database": "workspace:*",
     "@repo/logger": "workspace:*",
     "@repo/email": "workspace:*",
-    "@repo/logger": "workspace:*",
     "@repo/validators": "workspace:*",
     "ioredis": "^5.6.1",
     "google-auth-library": "^10.5.0",
