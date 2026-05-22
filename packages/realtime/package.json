@@ -4,7 +4,14 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@repo/database": "workspace:*",
@@ -14,6 +21,7 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
 }
