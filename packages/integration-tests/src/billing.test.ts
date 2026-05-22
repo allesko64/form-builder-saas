@@ -1,10 +1,19 @@
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 
-import { PlanLimitError } from "@repo/services/billing/model";
-
 import { cleanupForm, cleanupUser, createTestUser } from "./helpers/fixtures.js";
 import { formService } from "./helpers/services.js";
+
+function isPlanLimitError(
+  error: unknown,
+): error is Error & { reason: string; plan: string } {
+  return (
+    error instanceof Error &&
+    error.name === "PlanLimitError" &&
+    typeof (error as { reason?: unknown }).reason === "string" &&
+    typeof (error as { plan?: unknown }).plan === "string"
+  );
+}
 
 describe("billing plan limits (integration)", () => {
   const createdUserIds: string[] = [];
@@ -31,7 +40,7 @@ describe("billing plan limits (integration)", () => {
     await assert.rejects(
       () => formService.create(userId, { title: "Dossier 6" }),
       (error: unknown) => {
-        assert.ok(error instanceof PlanLimitError);
+        assert.ok(isPlanLimitError(error));
         assert.equal(error.reason, "form_limit");
         assert.equal(error.plan, "free");
         return true;

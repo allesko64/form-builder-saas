@@ -8,9 +8,11 @@ import { toast } from "sonner";
 
 import { DossierConfirmDialog } from "~/components/dossier/confirm-dialog";
 import { DossierNavButton, DossierNavLink } from "~/components/dossier/nav-link";
+import { DossierRowAction, dossierRowActionClass } from "~/components/dossier/row-action";
 import { DossierStamp } from "~/components/dossier/stamp";
 import { DossierPageShell } from "~/components/dossier/page-shell";
 import { Spinner } from "~/components/ui/spinner";
+import { publicFormUrl } from "~/lib/app-url";
 import { trpc } from "~/trpc/client";
 
 const TICKER_ITEMS = [
@@ -80,15 +82,30 @@ export default function DashboardPage() {
             INTELLIGENCE OVERVIEW
           </h1>
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-2 md:gap-3">
-          <DossierNavLink href="/explore" variant="secondary">
-            PUBLIC TERMINAL
+        <div className="flex flex-wrap items-stretch justify-end gap-2 md:gap-3">
+          <DossierNavLink
+            href="/explore"
+            variant="secondary"
+            symmetric
+            className="text-[0.75rem] md:text-[0.8125rem]"
+          >
+            PUBLIC
           </DossierNavLink>
-          <DossierNavLink href="/pricing" variant="accent">
+          <DossierNavLink
+            href="/pricing"
+            variant="secondary"
+            symmetric
+            className="text-[0.75rem] md:text-[0.8125rem]"
+          >
             PRICING
           </DossierNavLink>
-          <DossierNavButton variant="ghost" onClick={() => void handleSignOut()}>
-            DEACTIVATE SESSION
+          <DossierNavButton
+            variant="danger"
+            symmetric
+            className="text-[0.75rem] md:text-[0.8125rem]"
+            onClick={() => void handleSignOut()}
+          >
+            LOGOUT
           </DossierNavButton>
         </div>
       </div>
@@ -227,42 +244,47 @@ function FormRowActions({ form }: { form: FormShape }) {
     form.status === "published_public" || form.status === "published_unlisted";
   const canPublish = form.fieldCount > 0;
 
+  async function copyTransmissionLink() {
+    try {
+      await navigator.clipboard.writeText(publicFormUrl(form.slug));
+      toast.success("Transmission link copied");
+    } catch {
+      toast.error("Could not copy link");
+    }
+  }
+
   return (
-    <div className="mt-2 flex flex-wrap gap-2">
+    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
       {!isPublished ? (
         <>
-          <button
-            type="button"
+          <DossierRowAction
+            variant="default"
             disabled={isBusy || !canPublish}
             title={canPublish ? undefined : "Add at least one field before publishing"}
             onClick={() =>
               publish.mutate({ id: form.id, status: "published_public" })
             }
-            className="dossier-meta text-[var(--color-brass)] hover:text-[var(--color-stamp)] disabled:opacity-50"
+            className="text-[var(--color-brass)]"
           >
             PUBLISH
-          </button>
-          <button
-            type="button"
+          </DossierRowAction>
+          <DossierRowAction
             disabled={isBusy || !canPublish}
             title={canPublish ? undefined : "Add at least one field before publishing"}
             onClick={() =>
               publish.mutate({ id: form.id, status: "published_unlisted" })
             }
-            className="dossier-meta hover:text-[var(--color-ink)] disabled:opacity-50"
           >
             UNLISTED
-          </button>
+          </DossierRowAction>
         </>
       ) : (
-        <button
-          type="button"
+        <DossierRowAction
           disabled={isBusy}
           onClick={() => unpublish.mutate({ id: form.id })}
-          className="dossier-meta hover:text-[var(--color-stamp)] disabled:opacity-50"
         >
           UNPUBLISH
-        </button>
+        </DossierRowAction>
       )}
       <DossierConfirmDialog
         title="DUPLICATE DOSSIER"
@@ -271,10 +293,21 @@ function FormRowActions({ form }: { form: FormShape }) {
         cancelLabel="STAND DOWN"
         onConfirm={() => duplicate.mutate({ id: form.id })}
         triggerDisabled={isBusy}
-        triggerClassName="dossier-meta text-[var(--color-ink-faded)] hover:text-[var(--color-ink)] disabled:opacity-50"
+        triggerClassName={dossierRowActionClass("default")}
       >
         DUPLICATE
       </DossierConfirmDialog>
+      <DossierRowAction
+        disabled={isBusy || !isPublished}
+        title={
+          isPublished
+            ? "Copy public transmission link"
+            : "Publish dossier to copy transmission link"
+        }
+        onClick={() => void copyTransmissionLink()}
+      >
+        LINK
+      </DossierRowAction>
       <DossierConfirmDialog
         title="DESTROY DOSSIER"
         description={`"${form.title}" will be permanently destroyed along with all its directives. This action cannot be undone.`}
@@ -283,7 +316,7 @@ function FormRowActions({ form }: { form: FormShape }) {
         destructive
         onConfirm={() => remove.mutate({ id: form.id })}
         triggerDisabled={isBusy}
-        triggerClassName="dossier-meta text-[var(--color-stamp)] hover:underline disabled:opacity-50"
+        triggerClassName={dossierRowActionClass("danger")}
       >
         DESTROY
       </DossierConfirmDialog>

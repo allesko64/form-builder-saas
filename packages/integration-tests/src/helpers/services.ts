@@ -9,11 +9,21 @@ function resolveDefault<T>(mod: unknown): Constructable<T> {
   if (typeof mod === "function") {
     return mod as Constructable<T>;
   }
-  const withDefault = mod as { default: Constructable<T> };
-  return withDefault.default;
+  return (mod as { default: Constructable<T> }).default;
 }
 
-export const analyticsService = new (resolveDefault(AnalyticsServiceImport))();
-export const formService = new (resolveDefault(FormServiceImport))();
-export const publicService = new (resolveDefault(PublicServiceImport))();
-export const responseService = new (resolveDefault(ResponseServiceImport))();
+export const analyticsService: InstanceType<typeof AnalyticsServiceImport> = new (
+  resolveDefault<InstanceType<typeof AnalyticsServiceImport>>(AnalyticsServiceImport)
+)();
+
+export const formService: InstanceType<typeof FormServiceImport> = new (
+  resolveDefault<InstanceType<typeof FormServiceImport>>(FormServiceImport)
+)();
+
+export const publicService: InstanceType<typeof PublicServiceImport> = new (
+  resolveDefault<InstanceType<typeof PublicServiceImport>>(PublicServiceImport)
+)();
+
+export const responseService: InstanceType<typeof ResponseServiceImport> = new (
+  resolveDefault<InstanceType<typeof ResponseServiceImport>>(ResponseServiceImport)
+)();

@@ -50,7 +50,7 @@
   --ring: oklch(0.708 0 0);
 
   /* ── Dossier Times design tokens ── globally available on every page */
-  --color-paper: #f2e8d0;
+  --color-paper: #f1e7cf;
   --color-paper-dark: #e8d5b0;
   --color-manila: #d4a853;
   --color-ink: #111111;
@@ -106,7 +106,7 @@
 
 /* Scoped wrapper — same tokens as :root; used on auth + dossier pages */
 .dossier-theme {
-  --color-paper: #f2e8d0;
+  --color-paper: #f1e7cf;
   --color-paper-dark: #e8d5b0;
   --color-manila: #d4a853;
   --color-ink: #111111;

@@ -2,9 +2,9 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ClassifiedWatermark } from "~/components/dossier/classified-watermark";
 import { DossierStamp } from "~/components/dossier/stamp";
 import { DossierPageShell } from "~/components/dossier/page-shell";
-import { HALFTONE_PATTERN } from "~/lib/halftone-pattern";
 
 const TICKER_ITEMS = [
   "CLASSIFIED FORM BUILDER NOW OPERATIONAL",
@@ -122,16 +122,6 @@ function LeftColumnAtmosphere() {
       className="dossier-atmosphere relative min-h-[28rem] overflow-hidden px-6 py-10 pb-20 md:min-h-0 md:px-6 md:py-12 md:pb-12"
       style={{ backgroundColor: "var(--color-paper-dark)" }}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          backgroundImage: HALFTONE_PATTERN,
-          backgroundSize: "6px 6px",
-          opacity: 0.08,
-        }}
-      />
-
       <div className="relative z-20 flex flex-col gap-0">
         <OperativePhoto />
         <CaseFileBlock />
@@ -144,7 +134,8 @@ function LeftColumnAtmosphere() {
 export default function Home() {
   return (
     <DossierPageShell tickerItems={TICKER_ITEMS}>
-      <div className="grid min-h-[calc(100vh-3.5rem)] grid-cols-1 md:grid-cols-[minmax(240px,0.8fr)_2px_1.4fr_2px_minmax(200px,0.8fr)]">
+      <div className="relative min-h-[calc(100vh-3.5rem)]">
+        <div className="relative grid min-h-[calc(100vh-3.5rem)] grid-cols-1 md:grid-cols-[minmax(240px,0.8fr)_2px_1.4fr_2px_minmax(200px,0.8fr)]">
         {/* ── LEFT — manila folder atmosphere (no CTAs / links) ── */}
         <LeftColumnAtmosphere />
 
@@ -152,25 +143,9 @@ export default function Home() {
 
         {/* ── MIDDLE — hero panel (paper) ── */}
         <div
-          className="relative flex min-h-[50vh] flex-col border-b border-[var(--color-ink-faded)] px-6 py-10 md:min-h-0 md:border-b-0 md:px-8 md:py-12"
+          className="relative z-10 flex min-h-[50vh] flex-col border-b border-[var(--color-ink-faded)] px-6 py-10 md:min-h-0 md:border-b-0 md:px-8 md:py-12"
           style={{ backgroundColor: "var(--color-paper)" }}
         >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"
-          >
-            <span
-              className="select-none font-[family-name:var(--font-courier)] text-[5rem] font-bold uppercase tracking-[0.3em] lg:text-[7rem]"
-              style={{
-                color: "var(--color-stamp)",
-                opacity: 0.05,
-                transform: "rotate(-15deg)",
-              }}
-            >
-              CLASSIFIED
-            </span>
-          </div>
-
           <div className="relative z-10">
             <p className="dossier-kicker text-[var(--color-ink)]">
               FIELD BRIEFING · PUBLIC TERMINAL
@@ -218,7 +193,7 @@ export default function Home() {
 
         {/* ── RIGHT — nav + capabilities ── */}
         <div
-          className="flex flex-col px-6 py-10 md:px-6 md:py-12"
+          className="relative z-10 flex flex-col px-6 py-10 md:px-6 md:py-12"
           style={{ backgroundColor: "var(--color-paper-dark)" }}
         >
           <nav className="mb-8 space-y-4 border-b-2 border-[var(--color-ink)] pb-8">
@@ -257,6 +232,8 @@ export default function Home() {
             </DossierStamp>
           </div>
         </div>
+        </div>
+        <ClassifiedWatermark />
       </div>
     </DossierPageShell>
   );

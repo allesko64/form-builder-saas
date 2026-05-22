@@ -1,10 +1,6 @@
 import { dossierColorVar } from "~/components/auth/dossier-tokens";
 import { DossierMasthead } from "~/components/dossier/masthead";
-import {
-  FoldMarkOverlay,
-  HalftoneOverlay,
-  PaperGrainOverlay,
-} from "~/components/dossier/paper-overlay";
+import { PaperGrainOverlay } from "~/components/dossier/paper-overlay";
 
 const REDACTED_LINES = [
   "Subject maintained contact with ████████ division through encrypted channels.",
@@ -31,9 +27,7 @@ export function DossierAuthLayout({
       className="dossier-theme relative min-h-screen overflow-hidden"
       style={{ backgroundColor: dossierColorVar.paper }}
     >
-      <HalftoneOverlay />
       <PaperGrainOverlay />
-      <FoldMarkOverlay />
 
       <div className="relative z-10 flex min-h-screen flex-col">
         <DossierMasthead />

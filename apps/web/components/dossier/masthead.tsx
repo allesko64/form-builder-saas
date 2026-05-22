@@ -16,6 +16,7 @@ export function DossierMasthead({ classification = "RESTRICTED" }: MastheadProps
   const { data: session, isPending } = useSession();
   const homeHref = session?.user ? "/explore" : "/";
   const onDashboard = pathname === "/dashboard" || pathname.startsWith("/forms");
+  const showOverviewLink = pathname !== "/dashboard";
 
   return (
     <header className="relative z-20 grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b-2 border-[var(--color-ink)] bg-[var(--color-paper-dark)] px-6 py-3 md:px-8">
@@ -39,20 +40,22 @@ export function DossierMasthead({ classification = "RESTRICTED" }: MastheadProps
           <span className="dossier-meta">...</span>
         ) : session?.user ? (
           <>
-            <span className="dossier-caption hidden max-w-[10rem] truncate normal-case sm:inline">
+            <span className="dossier-meta max-w-[14rem] truncate font-bold text-[var(--color-stamp)] sm:max-w-[18rem]">
               {session.user.name ?? session.user.email}
             </span>
-            <Link
-              href="/dashboard"
-              className={cn(
-                "dossier-nav border-b transition-colors",
-                onDashboard
-                  ? "border-[var(--color-ink)] text-[var(--color-ink)]"
-                  : "border-[var(--color-ink-faded)] text-[var(--color-ink-faded)] hover:border-[var(--color-ink)] hover:text-[var(--color-ink)]",
-              )}
-            >
-              OVERVIEW →
-            </Link>
+            {showOverviewLink ? (
+              <Link
+                href="/dashboard"
+                className={cn(
+                  "dossier-nav border-b transition-colors",
+                  onDashboard
+                    ? "border-[var(--color-ink)] text-[var(--color-ink)]"
+                    : "border-[var(--color-ink-faded)] text-[var(--color-ink-faded)] hover:border-[var(--color-ink)] hover:text-[var(--color-ink)]",
+                )}
+              >
+                OVERVIEW →
+              </Link>
+            ) : null}
           </>
         ) : (
           <>
