@@ -31,11 +31,7 @@ export class PlanLimitError extends Error {
   readonly plan: SubscriptionPlan;
   readonly limits: PlanLimits;
 
-  constructor(
-    reason: PlanLimitReason,
-    plan: SubscriptionPlan,
-    message: string,
-  ) {
+  constructor(reason: PlanLimitReason, plan: SubscriptionPlan, message: string) {
     super(message);
     this.name = "PlanLimitError";
     this.reason = reason;

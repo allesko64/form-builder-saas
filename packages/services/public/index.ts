@@ -188,10 +188,7 @@ class PublicService {
       return { error: "validation", issues: parsed.error };
     }
 
-    const validated = parsed.data as Record<
-      string,
-      string | number | boolean | string[] | null
-    >;
+    const validated = parsed.data as Record<string, string | number | boolean | string[] | null>;
 
     const respondentEmail = form.collectRespondentEmail
       ? this.extractRespondentEmail(fields, validated)
