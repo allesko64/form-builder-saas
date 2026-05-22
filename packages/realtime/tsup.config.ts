@@ -3,7 +3,12 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["cjs"],
-  dts: true,
+  dts: {
+    compilerOptions: {
+      module: "ESNext",
+      moduleResolution: "Bundler",
+    },
+  },
   outDir: "dist",
   clean: true,
   outExtension() {
