@@ -65,7 +65,8 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
     setReceiptCheckDone(true);
   }, [slug, form?.existingTerminalSubmissionId]);
 
-  const recordFunnelMutation = trpc.public.recordFunnelProgress.useMutation();
+  const { mutate: recordFunnelProgress } = trpc.public.recordFunnelProgress.useMutation();
+  const lastRecordedFunnelRef = useRef<{ formId: string; stepIndex: number } | null>(null);
 
   const submitMutation = trpc.public.submit.useMutation({
     onSuccess: () => {
@@ -107,11 +108,13 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
 
   useEffect(() => {
     if (!form?.id || existingSubmissionId) return;
-    recordFunnelMutation.mutate({
-      formId: form.id,
-      stepIndex: currentStep,
-    });
-  }, [form?.id, currentStep, existingSubmissionId, recordFunnelMutation]);
+    const last = lastRecordedFunnelRef.current;
+    if (last?.formId === form.id && last.stepIndex === currentStep) return;
+
+    lastRecordedFunnelRef.current = { formId: form.id, stepIndex: currentStep };
+    recordFunnelProgress({ formId: form.id, stepIndex: currentStep });
+    // recordFunnelProgress (mutate) is stable; omit from deps to avoid mutation-state re-runs
+  }, [form?.id, currentStep, existingSubmissionId]);
 
   // True when the form has collectRespondentEmail and the current step is the last
   const showEmailToggle = (isLastStep: boolean) =>
