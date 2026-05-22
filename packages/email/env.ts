@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
-  EMAIL_FROM: z.string().email().optional(),
+  EMAIL_FROM: z.string().optional(),
 });
 
 function createEnv(env: NodeJS.ProcessEnv) {

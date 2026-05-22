@@ -4,10 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { DossierStamp } from "~/components/dossier/stamp";
-import {
-  getSubmissionReceipts,
-  type SubmissionReceipt,
-} from "~/lib/submission-receipts";
+import { getSubmissionReceipts, type SubmissionReceipt } from "~/lib/submission-receipts";
 
 type MySubmissionsListProps = {
   slug: string;
@@ -41,15 +38,11 @@ export function MySubmissionsList({ slug, formTitle }: MySubmissionsListProps) {
       </Link>
 
       <div className="mt-6 border-b-2 border-[var(--color-ink)] pb-6">
-        <p className="dossier-kicker text-[var(--color-ink-faded)]">
-          OPERATIVE RECORD
-        </p>
+        <p className="dossier-kicker text-[var(--color-ink-faded)]">OPERATIVE RECORD</p>
         <h1 className="mt-2 font-[family-name:var(--font-playfair)] text-3xl font-black text-[var(--color-ink)]">
           My filed reports
         </h1>
-        {formTitle ? (
-          <p className="mt-2 dossier-body">{formTitle}</p>
-        ) : null}
+        {formTitle ? <p className="mt-2 dossier-body">{formTitle}</p> : null}
         <p className="mt-3 dossier-meta text-[var(--color-ink-faded)]">
           Reports filed from this device on this terminal.
         </p>
@@ -95,9 +88,7 @@ export function MySubmissionsList({ slug, formTitle }: MySubmissionsListProps) {
                       Report #{receipt.submissionId.slice(0, 8).toUpperCase()}
                     </p>
                   </div>
-                  <span className="dossier-label text-[var(--color-ink-faded)]">
-                    VIEW →
-                  </span>
+                  <span className="dossier-label text-[var(--color-ink-faded)]">VIEW →</span>
                 </Link>
               </li>
             );

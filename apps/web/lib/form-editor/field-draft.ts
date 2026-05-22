@@ -49,10 +49,7 @@ function buildVisibilityConfig(draft: FieldDraft): VisibilityConfig | null {
     operator: draft.visibilityOperator,
   };
 
-  if (
-    draft.visibilityOperator === "equals" ||
-    draft.visibilityOperator === "not_equals"
-  ) {
+  if (draft.visibilityOperator === "equals" || draft.visibilityOperator === "not_equals") {
     const trimmed = draft.visibilityValue.trim();
     if (trimmed === "true" || trimmed === "false") {
       rule.value = trimmed === "true";

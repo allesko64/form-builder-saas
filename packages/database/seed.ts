@@ -69,10 +69,7 @@ function makeContext(seed: number): AnswerContext {
   return {
     pick: (items) => items[Math.floor(next() * items.length)]!,
     pickMany: (items, min, max) => {
-      const count = Math.min(
-        items.length,
-        min + Math.floor(next() * (max - min + 1)),
-      );
+      const count = Math.min(items.length, min + Math.floor(next() * (max - min + 1)));
       const copy = [...items];
       const out: typeof items = [];
       for (let i = 0; i < count; i++) {
@@ -381,9 +378,7 @@ async function seedForm(userId: string, def: SeedFormDef, formIndex: number) {
     )
     .returning();
 
-  const fieldIds = insertedFields
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .map((f) => f.id);
+  const fieldIds = insertedFields.sort((a, b) => a.sortOrder - b.sortOrder).map((f) => f.id);
 
   const rng = createRng(42_000 + formIndex * 1000);
   const rows: (typeof responsesTable.$inferInsert)[] = [];

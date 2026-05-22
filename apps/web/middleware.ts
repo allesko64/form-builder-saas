@@ -7,9 +7,7 @@ const protectedPrefixes = ["/dashboard", "/forms"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const session = await getSessionFromRequest(
-    request.headers.get("cookie"),
-  );
+  const session = await getSessionFromRequest(request.headers.get("cookie"));
   const isAuthed = !!session?.user;
 
   if (isAuthed && authEntryPaths.includes(pathname)) {
@@ -28,11 +26,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/",
-    "/sign-in",
-    "/sign-up",
-    "/dashboard/:path*",
-    "/forms/:path*",
-  ],
+  matcher: ["/", "/sign-in", "/sign-up", "/dashboard/:path*", "/forms/:path*"],
 };

@@ -13,11 +13,7 @@ type PageShellProps = {
   tickerItems?: string[];
 };
 
-export function DossierPageShell({
-  children,
-  classification,
-  tickerItems,
-}: PageShellProps) {
+export function DossierPageShell({ children, classification, tickerItems }: PageShellProps) {
   return (
     <div className="dossier-theme relative min-h-screen overflow-x-hidden">
       <PaperGrainOverlay />

@@ -35,7 +35,7 @@ export function SubmissionReceiptView({
     const message =
       error?.data?.code === "NOT_FOUND"
         ? "This report was not found or is no longer available on this terminal."
-        : error?.message ?? "Unable to load report.";
+        : (error?.message ?? "Unable to load report.");
     return (
       <div className="mx-auto max-w-lg px-6 py-16 text-center">
         <DossierStamp variant="red" rotate={-5} size="sm">
@@ -73,7 +73,13 @@ export function SubmissionReceiptView({
         </Link>
       ) : null}
 
-      <div className={embedded ? "border-b-2 border-[var(--color-ink)] pb-6" : "mt-6 border-b-2 border-[var(--color-ink)] pb-6"}>
+      <div
+        className={
+          embedded
+            ? "border-b-2 border-[var(--color-ink)] pb-6"
+            : "mt-6 border-b-2 border-[var(--color-ink)] pb-6"
+        }
+      >
         <p className="dossier-kicker text-[var(--color-ink-faded)]">
           {embedded ? "YOUR FILED REPORT" : "TRANSMISSION RECEIPT"}
         </p>
@@ -89,7 +95,10 @@ export function SubmissionReceiptView({
 
       <dl className="mt-8 space-y-5 border-2 border-[var(--color-ink)] bg-[var(--color-paper)] p-6">
         {sortedFields.map((field) => (
-          <div key={field.id} className="border-b border-dashed border-[var(--color-ink-faded)] pb-4 last:border-0 last:pb-0">
+          <div
+            key={field.id}
+            className="border-b border-dashed border-[var(--color-ink-faded)] pb-4 last:border-0 last:pb-0"
+          >
             <dt className="dossier-label text-[var(--color-ink-faded)]">{field.label}</dt>
             <dd className="mt-2 font-[family-name:var(--font-lora)] text-sm text-[var(--color-ink)]">
               {formatAnswer(data.answers[field.id])}

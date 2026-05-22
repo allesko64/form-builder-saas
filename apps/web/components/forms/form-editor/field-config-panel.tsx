@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { DossierInput, DossierLabel } from "~/components/auth/dossier-fields";
-import {
-  draftToFieldPatch,
-  fieldToDraft,
-  type FieldDraft,
-} from "~/lib/form-editor/field-draft";
+import { draftToFieldPatch, fieldToDraft, type FieldDraft } from "~/lib/form-editor/field-draft";
 import type { EditorField, FieldPatch } from "~/lib/form-editor/optimistic-form-cache";
 
 type FieldConfigPanelProps = {
@@ -48,9 +44,7 @@ export function FieldConfigPanel({
 
   if (!field || !draft) {
     return (
-      <p className="dossier-body">
-        Select a directive from the canvas to edit its properties.
-      </p>
+      <p className="dossier-body">Select a directive from the canvas to edit its properties.</p>
     );
   }
 
@@ -60,8 +54,7 @@ export function FieldConfigPanel({
     onQueuePatchAction(draftToFieldPatch(field, next, changed));
   }
 
-  const hasOptions =
-    field.type === "single_select" || field.type === "multi_select";
+  const hasOptions = field.type === "single_select" || field.type === "multi_select";
 
   const controllerCandidates = allFields
     .filter((f) => f.id !== field.id)
@@ -69,22 +62,17 @@ export function FieldConfigPanel({
 
   const showValueInput =
     draft.visibilityEnabled &&
-    (draft.visibilityOperator === "equals" ||
-      draft.visibilityOperator === "not_equals");
+    (draft.visibilityOperator === "equals" || draft.visibilityOperator === "not_equals");
 
   return (
     <div className="space-y-4">
-      <p className="dossier-kicker text-[var(--color-stamp)]">
-        DIRECTIVE CONFIGURATION
-      </p>
+      <p className="dossier-kicker text-[var(--color-stamp)]">DIRECTIVE CONFIGURATION</p>
 
       <div>
         <DossierLabel>LABEL</DossierLabel>
         <DossierInput
           value={draft.label}
-          onChange={(e) =>
-            updateDraft("label", { ...draft, label: e.target.value })
-          }
+          onChange={(e) => updateDraft("label", { ...draft, label: e.target.value })}
         />
       </div>
 
@@ -92,9 +80,7 @@ export function FieldConfigPanel({
         <DossierLabel>PLACEHOLDER</DossierLabel>
         <DossierInput
           value={draft.placeholder}
-          onChange={(e) =>
-            updateDraft("placeholder", { ...draft, placeholder: e.target.value })
-          }
+          onChange={(e) => updateDraft("placeholder", { ...draft, placeholder: e.target.value })}
         />
       </div>
 
@@ -104,9 +90,7 @@ export function FieldConfigPanel({
           className={textareaClass}
           value={draft.helpText}
           rows={2}
-          onChange={(e) =>
-            updateDraft("helpText", { ...draft, helpText: e.target.value })
-          }
+          onChange={(e) => updateDraft("helpText", { ...draft, helpText: e.target.value })}
         />
       </div>
 
@@ -131,9 +115,7 @@ export function FieldConfigPanel({
             className={textareaClass}
             rows={5}
             value={draft.optionsText}
-            onChange={(e) =>
-              updateDraft("optionsText", { ...draft, optionsText: e.target.value })
-            }
+            onChange={(e) => updateDraft("optionsText", { ...draft, optionsText: e.target.value })}
           />
         </div>
       ) : null}
@@ -146,17 +128,13 @@ export function FieldConfigPanel({
             min={1}
             max={10}
             value={draft.maxRating}
-            onChange={(e) =>
-              updateDraft("maxRating", { ...draft, maxRating: e.target.value })
-            }
+            onChange={(e) => updateDraft("maxRating", { ...draft, maxRating: e.target.value })}
           />
         </div>
       ) : null}
 
       <div className="border-t border-dotted border-[var(--color-ink-faded)] pt-4">
-        <p className="dossier-kicker mb-3 text-[var(--color-ink-faded)]">
-          CONDITIONAL VISIBILITY
-        </p>
+        <p className="dossier-kicker mb-3 text-[var(--color-ink-faded)]">CONDITIONAL VISIBILITY</p>
 
         <label className="flex items-center gap-2 font-[family-name:var(--font-courier)] text-[0.75rem] font-bold uppercase tracking-[0.12em] text-[var(--color-ink)]">
           <input
@@ -228,8 +206,7 @@ export function FieldConfigPanel({
                 onChange={(e) => {
                   const next = {
                     ...draft,
-                    visibilityOperator: e.target
-                      .value as FieldDraft["visibilityOperator"],
+                    visibilityOperator: e.target.value as FieldDraft["visibilityOperator"],
                   };
                   setDraft(next);
                   onApplyNowAction(draftToFieldPatch(field, next, "visibilityOperator"));

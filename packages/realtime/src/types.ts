@@ -46,9 +46,7 @@ export type AnalyticsServerMessage =
     };
 
 /** Client → server messages. */
-export type AnalyticsClientMessage =
-  | { type: "subscribe"; formId: string }
-  | { type: "ping" };
+export type AnalyticsClientMessage = { type: "subscribe"; formId: string } | { type: "ping" };
 
 export type SocketLike = {
   send(data: string): void;

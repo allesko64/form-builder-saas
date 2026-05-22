@@ -32,8 +32,7 @@ export function getSubmissionReceipts(slug: string): SubmissionReceipt[] {
     const parsed = JSON.parse(raw) as SubmissionReceipt[];
     if (!Array.isArray(parsed)) return [];
     return parsed.filter(
-      (r) =>
-        typeof r.submissionId === "string" && typeof r.submittedAt === "string",
+      (r) => typeof r.submissionId === "string" && typeof r.submittedAt === "string",
     );
   } catch {
     return [];

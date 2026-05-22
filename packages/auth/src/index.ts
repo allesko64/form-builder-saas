@@ -4,13 +4,15 @@ import { db } from "@repo/database";
 import { account, session, user, verification } from "@repo/database/schema";
 import { z } from "zod";
 
-const env = z.object({
-  BETTER_AUTH_SECRET: z.string(),
-  BASE_URL: z.string().default("http://localhost:8000"),
-  WEB_APP_URL: z.string().default("http://localhost:3000"),
-  GOOGLE_OAUTH_CLIENT_ID: z.string(),
-  GOOGLE_OAUTH_CLIENT_SECRET: z.string(),
-}).parse(process.env);
+const env = z
+  .object({
+    BETTER_AUTH_SECRET: z.string(),
+    BASE_URL: z.string().default("http://localhost:8000"),
+    WEB_APP_URL: z.string().default("http://localhost:3000"),
+    GOOGLE_OAUTH_CLIENT_ID: z.string(),
+    GOOGLE_OAUTH_CLIENT_SECRET: z.string(),
+  })
+  .parse(process.env);
 
 export const auth = betterAuth({
   secret: env.BETTER_AUTH_SECRET,

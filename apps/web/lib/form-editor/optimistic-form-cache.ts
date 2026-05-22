@@ -38,10 +38,7 @@ function mergeValidationConfig(
   return { ...(current ?? {}), ...patch };
 }
 
-export function mergeField(
-  field: EditorField,
-  patch: FieldPatch,
-): EditorField {
+export function mergeField(field: EditorField, patch: FieldPatch): EditorField {
   return {
     ...field,
     ...(patch.label !== undefined ? { label: patch.label } : {}),
@@ -51,22 +48,14 @@ export function mergeField(
     ...(patch.validationConfig !== undefined
       ? { validationConfig: mergeValidationConfig(field.validationConfig, patch.validationConfig) }
       : {}),
-    ...(patch.visibilityConfig !== undefined
-      ? { visibilityConfig: patch.visibilityConfig }
-      : {}),
+    ...(patch.visibilityConfig !== undefined ? { visibilityConfig: patch.visibilityConfig } : {}),
   };
 }
 
-export function patchFormFields(
-  form: EditorForm,
-  fieldId: string,
-  patch: FieldPatch,
-): EditorForm {
+export function patchFormFields(form: EditorForm, fieldId: string, patch: FieldPatch): EditorForm {
   return {
     ...form,
-    fields: form.fields.map((f) =>
-      f.id === fieldId ? mergeField(f, patch) : f,
-    ),
+    fields: form.fields.map((f) => (f.id === fieldId ? mergeField(f, patch) : f)),
   };
 }
 
@@ -75,9 +64,7 @@ export function patchFormData(form: EditorForm, patch: FormPatch): EditorForm {
   const next: EditorForm = { ...form, ...rest };
   if (expiresAt !== undefined) {
     next.expiresAt =
-      expiresAt instanceof Date
-        ? (expiresAt.toISOString() as EditorForm["expiresAt"])
-        : expiresAt;
+      expiresAt instanceof Date ? (expiresAt.toISOString() as EditorForm["expiresAt"]) : expiresAt;
   }
   return next;
 }

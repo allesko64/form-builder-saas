@@ -235,13 +235,9 @@ function FormRowActions({ form }: { form: FormShape }) {
   });
 
   const isBusy =
-    publish.isPending ||
-    unpublish.isPending ||
-    remove.isPending ||
-    duplicate.isPending;
+    publish.isPending || unpublish.isPending || remove.isPending || duplicate.isPending;
 
-  const isPublished =
-    form.status === "published_public" || form.status === "published_unlisted";
+  const isPublished = form.status === "published_public" || form.status === "published_unlisted";
   const canPublish = form.fieldCount > 0;
 
   async function copyTransmissionLink() {
@@ -261,9 +257,7 @@ function FormRowActions({ form }: { form: FormShape }) {
             variant="default"
             disabled={isBusy || !canPublish}
             title={canPublish ? undefined : "Add at least one field before publishing"}
-            onClick={() =>
-              publish.mutate({ id: form.id, status: "published_public" })
-            }
+            onClick={() => publish.mutate({ id: form.id, status: "published_public" })}
             className="text-[var(--color-brass)]"
           >
             PUBLISH
@@ -271,18 +265,13 @@ function FormRowActions({ form }: { form: FormShape }) {
           <DossierRowAction
             disabled={isBusy || !canPublish}
             title={canPublish ? undefined : "Add at least one field before publishing"}
-            onClick={() =>
-              publish.mutate({ id: form.id, status: "published_unlisted" })
-            }
+            onClick={() => publish.mutate({ id: form.id, status: "published_unlisted" })}
           >
             UNLISTED
           </DossierRowAction>
         </>
       ) : (
-        <DossierRowAction
-          disabled={isBusy}
-          onClick={() => unpublish.mutate({ id: form.id })}
-        >
+        <DossierRowAction disabled={isBusy} onClick={() => unpublish.mutate({ id: form.id })}>
           UNPUBLISH
         </DossierRowAction>
       )}
@@ -337,9 +326,7 @@ function FormRow({ form, index }: { form: FormShape; index: number }) {
   return (
     <div className="group flex items-start gap-4 bg-[var(--color-paper)] px-6 py-5 transition-colors hover:bg-[var(--color-paper-dark)]">
       {/* Case number */}
-      <span className="dossier-meta min-w-[3rem] pt-1">
-        #{index.toString().padStart(4, "0")}
-      </span>
+      <span className="dossier-meta min-w-[3rem] pt-1">#{index.toString().padStart(4, "0")}</span>
 
       {/* Form details */}
       <div className="flex-1 min-w-0">
@@ -350,9 +337,7 @@ function FormRow({ form, index }: { form: FormShape; index: number }) {
           {form.title}
         </Link>
         {form.description && (
-          <p className="dossier-body mt-1 text-sm line-clamp-1">
-            {form.description}
-          </p>
+          <p className="dossier-body mt-1 text-sm line-clamp-1">{form.description}</p>
         )}
         <p className="dossier-meta mt-2">
           FILED: {createdAt.toUpperCase()} · SLUG: /{form.slug} · REPORTS:{" "}
@@ -363,33 +348,20 @@ function FormRow({ form, index }: { form: FormShape; index: number }) {
 
       {/* Status stamp */}
       <div className="flex-shrink-0">
-        <DossierStamp
-          variant={statusCfg.variant}
-          rotate={statusCfg.rotate}
-          size="xs"
-        >
+        <DossierStamp variant={statusCfg.variant} rotate={statusCfg.rotate} size="xs">
           {statusCfg.label}
         </DossierStamp>
       </div>
 
       {/* Action links */}
       <div className="flex-shrink-0 flex flex-col gap-1 text-right">
-        <Link
-          href={`/forms/${form.id}`}
-          className="dossier-nav"
-        >
+        <Link href={`/forms/${form.id}`} className="dossier-nav">
           EDIT →
         </Link>
-        <Link
-          href={`/forms/${form.id}/analytics`}
-          className="dossier-nav"
-        >
+        <Link href={`/forms/${form.id}/analytics`} className="dossier-nav">
           INTEL →
         </Link>
-        <Link
-          href={`/forms/${form.id}/responses`}
-          className="dossier-nav"
-        >
+        <Link href={`/forms/${form.id}/responses`} className="dossier-nav">
           REPORTS →
         </Link>
         {(form.status === "published_public" || form.status === "published_unlisted") && (

@@ -139,10 +139,7 @@ function SignInForm() {
       </Form>
 
       <DossierFooterText>
-        <Link
-          href="/"
-          className="dossier-nav no-underline hover:underline"
-        >
+        <Link href="/" className="dossier-nav no-underline hover:underline">
           RETURN TO PUBLIC TERMINAL
         </Link>
       </DossierFooterText>

@@ -150,10 +150,15 @@ function createGlobalRateLimiter() {
   };
 
   if (redis) {
+    const r = redis;
     return rateLimit({
       ...options,
       store: new RedisStore({
-        sendCommand: (...args: string[]) => redis.call(...args),
+        // @ts-expect-error: ioredis.call returns Promise<unknown>; rate-limit-redis expects Promise<RedisReply>
+        sendCommand: (...args: string[]) => {
+          const [command, ...rest] = args;
+          return r.call(command!, rest);
+        },
         prefix: "rl:global:",
       }),
     });
@@ -178,12 +183,7 @@ export function applySecurityMiddleware(app: Express): void {
       origin: env.WEB_APP_URL,
       credentials: true,
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-      allowedHeaders: [
-        "Content-Type",
-        "Authorization",
-        "trpc-batch-mode",
-        "x-terminal-id",
-      ],
+      allowedHeaders: ["Content-Type", "Authorization", "trpc-batch-mode", "x-terminal-id"],
     }),
   );
 

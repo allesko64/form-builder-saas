@@ -17,10 +17,7 @@ export default function FormResponsesPage() {
   const [fromDate, setFromDate] = useState("");
   const [cursor, setCursor] = useState<string | undefined>(undefined);
 
-  const { data: form } = trpc.form.getById.useQuery(
-    { id: formId },
-    { enabled: !!formId },
-  );
+  const { data: form } = trpc.form.getById.useQuery({ id: formId }, { enabled: !!formId });
 
   const { data, isPending, isFetching } = trpc.analytics.responses.useQuery({
     formId,
@@ -60,9 +57,7 @@ export default function FormResponsesPage() {
         <h1 className="mt-4 font-[family-name:var(--font-playfair)] text-2xl font-black text-[var(--color-ink)]">
           {form?.title ?? "Response Log"}
         </h1>
-        <p className="mt-1 dossier-meta text-[var(--color-ink-faded)]">
-          INCOMING FIELD REPORTS
-        </p>
+        <p className="mt-1 dossier-meta text-[var(--color-ink-faded)]">INCOMING FIELD REPORTS</p>
 
         <div className="mt-6 flex flex-wrap items-end gap-4">
           <div>
@@ -89,9 +84,7 @@ export default function FormResponsesPage() {
             </span>
           </div>
         ) : items.length === 0 ? (
-          <p className="mt-12 dossier-body">
-            No field reports on record for this dossier.
-          </p>
+          <p className="mt-12 dossier-body">No field reports on record for this dossier.</p>
         ) : (
           <div className="mt-8 divide-y-2 divide-[var(--color-ink)] border-2 border-[var(--color-ink)]">
             {items.map((row) => {

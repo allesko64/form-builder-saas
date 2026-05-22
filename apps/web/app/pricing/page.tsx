@@ -36,28 +36,29 @@ export default function PricingPage() {
   return (
     <DossierPageShell tickerItems={TICKER_ITEMS} classification="PRICING">
       <div className="px-6 py-10 md:px-10">
-        <p className="dossier-kicker text-[var(--color-ink-faded)]">
-          SUBSCRIPTION DIRECTIVE
-        </p>
+        <p className="dossier-kicker text-[var(--color-ink-faded)]">SUBSCRIPTION DIRECTIVE</p>
         <h1 className="mt-2 font-[family-name:var(--font-playfair)] text-3xl font-black text-[var(--color-ink)]">
           Clearance Tiers
         </h1>
         <p className="mt-3 max-w-2xl dossier-body text-sm text-[var(--color-ink-faded)]">
-          Limits are enforced in the dossier system: active dossiers, team operatives, and
-          monthly responses. Field Operative (free) allows up to 5 dossiers, 1 operative, and
-          1,000 responses per month.
+          Limits are enforced in the dossier system: active dossiers, team operatives, and monthly
+          responses. Field Operative (free) allows up to 5 dossiers, 1 operative, and 1,000
+          responses per month.
         </p>
 
         {usage ? (
           <div className="mt-6 border-2 border-dotted border-[var(--color-stamp)] bg-[color-mix(in_srgb,var(--color-paper-dark)_50%,transparent)] p-4">
             <p className="dossier-kicker text-[var(--color-stamp)]">YOUR CLEARANCE</p>
             <p className="mt-2 dossier-body text-sm">
-              Current tier:{" "}
-              <strong>{PLAN_LABELS[usage.plan]}</strong> — {usage.usage.activeForms} /{" "}
-              {usage.limits.maxForms} dossiers, {usage.usage.responsesThisMonth.toLocaleString("en-IN")}{" "}
-              / {usage.limits.maxResponsesPerMonth.toLocaleString("en-IN")} responses this month.
+              Current tier: <strong>{PLAN_LABELS[usage.plan]}</strong> — {usage.usage.activeForms} /{" "}
+              {usage.limits.maxForms} dossiers,{" "}
+              {usage.usage.responsesThisMonth.toLocaleString("en-IN")} /{" "}
+              {usage.limits.maxResponsesPerMonth.toLocaleString("en-IN")} responses this month.
             </p>
-            <Link href="/dashboard" className="mt-3 inline-block dossier-meta text-[var(--color-brass)] hover:text-[var(--color-stamp)]">
+            <Link
+              href="/dashboard"
+              className="mt-3 inline-block dossier-meta text-[var(--color-brass)] hover:text-[var(--color-stamp)]"
+            >
               RETURN TO OVERVIEW →
             </Link>
           </div>
@@ -147,8 +148,8 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-6 dossier-body text-sm text-[var(--color-ink-faded)]">
-          Payment integration (Razorpay / Stripe) is scheduled for a future cycle. Plan limits
-          are active now.
+          Payment integration (Razorpay / Stripe) is scheduled for a future cycle. Plan limits are
+          active now.
         </p>
       </div>
     </DossierPageShell>

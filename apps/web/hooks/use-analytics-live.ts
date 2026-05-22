@@ -19,12 +19,7 @@ export type AnalyticsByDayLive = {
   count: number;
 };
 
-export type AnalyticsLiveStatus =
-  | "idle"
-  | "connecting"
-  | "live"
-  | "reconnecting"
-  | "offline";
+export type AnalyticsLiveStatus = "idle" | "connecting" | "live" | "reconnecting" | "offline";
 
 type ServerMessage =
   | {
@@ -102,9 +97,7 @@ export function useAnalyticsLive(formId: string | undefined) {
       if (msg.type === "analytics_delta") {
         setOverview(msg.overview);
         if (msg.byDayDelta) {
-          setByDay((prev) =>
-            applyByDayDelta(prev ?? [], msg.byDayDelta!),
-          );
+          setByDay((prev) => applyByDayDelta(prev ?? [], msg.byDayDelta!));
         }
         setActiveViewers(msg.activeViewers);
         setStatus("live");

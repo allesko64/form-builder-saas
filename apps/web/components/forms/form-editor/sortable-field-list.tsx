@@ -43,16 +43,16 @@ function SortableFieldRow({
   onSelect: () => void;
   onDelete: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: field.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: field.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
-  const typeLabel =
-    FIELD_TYPE_CATALOG.find((t) => t.type === field.type)?.label ?? field.type;
+  const typeLabel = FIELD_TYPE_CATALOG.find((t) => t.type === field.type)?.label ?? field.type;
 
   return (
     <div

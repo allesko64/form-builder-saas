@@ -84,7 +84,6 @@ export function SubmitSuccessScreen({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8 md:px-6">
-
       {/* ── Broadsheet masthead ──────────────────────────────────── */}
       <div className="border-y-4 border-[var(--color-ink)] py-3 text-center">
         <p className="dossier-meta text-[var(--color-ink-faded)]">
@@ -98,10 +97,8 @@ export function SubmitSuccessScreen({
 
       {/* ── 3-column newspaper grid ──────────────────────────────── */}
       <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-0">
-
         {/* ── Column 1: Stamp · Seal · Lead article ──────────────── */}
         <div className="md:border-r-2 md:border-[var(--color-ink)] md:pr-6">
-
           {/* CASE CLOSED stamp — slams on mount via DossierStamp's built-in entrance */}
           <div className="mb-6 flex justify-center">
             <DossierStamp variant="red" rotate={-7} size="lg">

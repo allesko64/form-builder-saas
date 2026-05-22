@@ -18,9 +18,7 @@ export function formToSettingsDraft(form: EditorForm): FormSettingsDraft {
     submitButtonText: form.submitButtonText,
     successMessage: form.successMessage ?? "",
     responseLimit: form.responseLimit != null ? String(form.responseLimit) : "",
-    expiresAtLocal: form.expiresAt
-      ? new Date(form.expiresAt).toISOString().slice(0, 16)
-      : "",
+    expiresAtLocal: form.expiresAt ? new Date(form.expiresAt).toISOString().slice(0, 16) : "",
     collectRespondentEmail: form.collectRespondentEmail,
   };
 }
@@ -44,9 +42,7 @@ export function settingsDraftToPatch(
     }
     case "expiresAtLocal":
       return {
-        expiresAt: draft.expiresAtLocal
-          ? new Date(draft.expiresAtLocal)
-          : null,
+        expiresAt: draft.expiresAtLocal ? new Date(draft.expiresAtLocal) : null,
       };
     case "collectRespondentEmail":
       return { collectRespondentEmail: draft.collectRespondentEmail };

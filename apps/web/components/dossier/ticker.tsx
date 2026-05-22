@@ -64,13 +64,9 @@ export function DossierTicker({ items = DEFAULT_ITEMS }: TickerProps) {
         animate={{ x: ["0%", "-50%"] }}
         transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
       >
-        <span className="dossier-meta text-[var(--color-paper)]">
-          {text}
-        </span>
+        <span className="dossier-meta text-[var(--color-paper)]">{text}</span>
         {/* Second copy — makes the -50% snap seamless */}
-        <span className="dossier-meta text-[var(--color-paper)]">
-          {text}
-        </span>
+        <span className="dossier-meta text-[var(--color-paper)]">{text}</span>
       </motion.div>
     </div>
   );

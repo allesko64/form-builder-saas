@@ -69,17 +69,11 @@ export function DossierConfirmDialog({
   const isControlled = open !== undefined;
 
   return (
-    <AlertDialog
-      {...(isControlled ? { open, onOpenChange } : {})}
-    >
+    <AlertDialog {...(isControlled ? { open, onOpenChange } : {})}>
       {/* Only render a trigger when in uncontrolled mode */}
       {!isControlled && children !== undefined && (
         <AlertDialogTrigger asChild>
-          <button
-            type="button"
-            disabled={triggerDisabled}
-            className={triggerClassName}
-          >
+          <button type="button" disabled={triggerDisabled} className={triggerClassName}>
             {children}
           </button>
         </AlertDialogTrigger>

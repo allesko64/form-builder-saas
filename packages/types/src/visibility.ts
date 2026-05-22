@@ -12,9 +12,7 @@ export type VisibilityOperator = z.infer<typeof visibilityOperatorSchema>;
 export const visibilityRuleSchema = z.object({
   fieldId: z.string().uuid(),
   operator: visibilityOperatorSchema,
-  value: z
-    .union([z.string(), z.number(), z.boolean(), z.array(z.string())])
-    .optional(),
+  value: z.union([z.string(), z.number(), z.boolean(), z.array(z.string())]).optional(),
 });
 
 export type VisibilityRule = z.infer<typeof visibilityRuleSchema>;

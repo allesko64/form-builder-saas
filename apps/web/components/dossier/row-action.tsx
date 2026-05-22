@@ -9,8 +9,7 @@ const variantClass: Record<DossierRowActionVariant, string> = {
     "dossier-meta text-[var(--color-ink-faded)] hover:text-[var(--color-stamp)] disabled:opacity-50",
   muted:
     "dossier-meta text-[var(--color-ink-faded)] hover:text-[var(--color-stamp)] disabled:opacity-50",
-  danger:
-    "dossier-meta text-[var(--color-stamp)] hover:underline disabled:opacity-50",
+  danger: "dossier-meta text-[var(--color-stamp)] hover:underline disabled:opacity-50",
 };
 
 export function dossierRowActionClass(
@@ -33,11 +32,7 @@ export function DossierRowAction({
   ...props
 }: DossierRowActionProps) {
   return (
-    <button
-      type={type}
-      className={dossierRowActionClass(variant, className)}
-      {...props}
-    >
+    <button type={type} className={dossierRowActionClass(variant, className)} {...props}>
       {children}
     </button>
   );

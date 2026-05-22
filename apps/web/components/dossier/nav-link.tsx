@@ -3,12 +3,7 @@ import type * as React from "react";
 
 import { cn } from "~/lib/utils";
 
-export type DossierNavLinkVariant =
-  | "primary"
-  | "secondary"
-  | "accent"
-  | "ghost"
-  | "danger";
+export type DossierNavLinkVariant = "primary" | "secondary" | "accent" | "ghost" | "danger";
 
 const variantClass: Record<DossierNavLinkVariant, string> = {
   primary:
@@ -30,14 +25,12 @@ const activeVariantClass: Record<DossierNavLinkVariant, string> = {
     "border-[var(--color-ink)] bg-[var(--color-paper-dark)] text-[var(--color-ink)] shadow-[4px_4px_0_var(--color-ink)] outline-[var(--color-ink)]",
   accent:
     "border-[var(--color-stamp)] bg-[var(--color-stamp)] text-[var(--color-paper)] outline-[var(--color-stamp)]",
-  ghost:
-    "border-[var(--color-stamp)] text-[var(--color-stamp)]",
+  ghost: "border-[var(--color-stamp)] text-[var(--color-stamp)]",
   danger:
     "border-[var(--color-stamp)] bg-[var(--color-paper-dark)] text-[var(--color-stamp)] shadow-[4px_4px_0_var(--color-stamp)] outline-[var(--color-stamp)]",
 };
 
-const symmetricNavClass =
-  "min-w-[5.5rem] justify-center text-center md:min-w-[6.25rem]";
+const symmetricNavClass = "min-w-[5.5rem] justify-center text-center md:min-w-[6.25rem]";
 
 const baseNavClass =
   "dossier-btn inline-flex shrink-0 items-center rounded-none border-2 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] transition-all duration-200 md:px-4 md:py-2 md:text-[0.7rem]";
@@ -74,10 +67,7 @@ export function DossierNavLink({
   className,
 }: DossierNavLinkProps) {
   return (
-    <Link
-      href={href}
-      className={dossierNavClass(variant, active, { symmetric, className })}
-    >
+    <Link href={href} className={dossierNavClass(variant, active, { symmetric, className })}>
       {children}
     </Link>
   );

@@ -64,9 +64,7 @@ export function DossierAuthLayout({
                 {headline}
               </h1>
 
-              <p className="mt-6 max-w-md dossier-body">
-                {description}
-              </p>
+              <p className="mt-6 max-w-md dossier-body">{description}</p>
 
               <div className="mt-10 space-y-3 border-l-2 border-[var(--color-ink-faded)] pl-4">
                 {REDACTED_LINES.map((line, i) => (
@@ -80,9 +78,7 @@ export function DossierAuthLayout({
               </div>
             </div>
 
-            <p
-              className="dossier-caption relative z-10 mt-12 text-[var(--color-brass)]"
-            >
+            <p className="dossier-caption relative z-10 mt-12 text-[var(--color-brass)]">
               CASE #AUTH-2026 · CLASSIFICATION: RESTRICTED
             </p>
           </aside>

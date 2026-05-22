@@ -22,12 +22,8 @@ export function FieldPalette({ onAddAction, disabled }: FieldPaletteProps) {
           onClick={() => onAddAction(item.type)}
           className="w-full border border-[var(--color-ink-faded)] bg-[var(--color-paper)] px-3 py-2.5 text-left transition-colors hover:border-[var(--color-ink)] hover:bg-[var(--color-paper-dark)] disabled:opacity-50"
         >
-          <span className="dossier-label block text-[var(--color-ink)]">
-            + {item.label}
-          </span>
-          <span className="dossier-body mt-1 block text-sm">
-            {item.description}
-          </span>
+          <span className="dossier-label block text-[var(--color-ink)]">+ {item.label}</span>
+          <span className="dossier-body mt-1 block text-sm">{item.description}</span>
         </button>
       ))}
     </div>

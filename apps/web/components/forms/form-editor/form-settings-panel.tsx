@@ -27,9 +27,7 @@ export function FormSettingsPanel({
   onQueuePatchAction,
   onApplyNowAction,
 }: FormSettingsPanelProps) {
-  const [draft, setDraft] = useState<FormSettingsDraft>(() =>
-    formToSettingsDraft(form),
-  );
+  const [draft, setDraft] = useState<FormSettingsDraft>(() => formToSettingsDraft(form));
 
   useEffect(() => {
     setDraft(formToSettingsDraft(form));
@@ -47,17 +45,13 @@ export function FormSettingsPanel({
 
   return (
     <div className="space-y-5">
-      <p className="dossier-kicker text-[var(--color-stamp)]">
-        DOSSIER SETTINGS
-      </p>
+      <p className="dossier-kicker text-[var(--color-stamp)]">DOSSIER SETTINGS</p>
 
       <div>
         <DossierLabel>TITLE</DossierLabel>
         <DossierInput
           value={draft.title}
-          onChange={(e) =>
-            updateDraft("title", { ...draft, title: e.target.value })
-          }
+          onChange={(e) => updateDraft("title", { ...draft, title: e.target.value })}
         />
       </div>
 
@@ -67,9 +61,7 @@ export function FormSettingsPanel({
           className={textareaClass}
           rows={3}
           value={draft.description}
-          onChange={(e) =>
-            updateDraft("description", { ...draft, description: e.target.value })
-          }
+          onChange={(e) => updateDraft("description", { ...draft, description: e.target.value })}
         />
       </div>
 

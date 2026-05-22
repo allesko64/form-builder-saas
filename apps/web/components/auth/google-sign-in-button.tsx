@@ -46,8 +46,7 @@ function resolveCallbackURL(path: string): string {
   if (typeof window !== "undefined") {
     return `${window.location.origin}${normalized}`;
   }
-  const webOrigin =
-    process.env.NEXT_PUBLIC_WEB_APP_URL ?? "http://localhost:3000";
+  const webOrigin = process.env.NEXT_PUBLIC_WEB_APP_URL ?? "http://localhost:3000";
   return `${webOrigin}${normalized}`;
 }
 
@@ -68,8 +67,7 @@ export function GoogleSignInButton({ callbackURL = "/dashboard" }: GoogleSignInB
         return;
       }
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Could not reach the auth server";
+      const message = err instanceof Error ? err.message : "Could not reach the auth server";
       const hint =
         message.includes("fetch") || message.includes("Failed")
           ? " — is the API running on port 8000?"

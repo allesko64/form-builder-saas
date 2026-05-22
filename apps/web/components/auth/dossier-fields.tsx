@@ -8,18 +8,13 @@ import { cn } from "~/lib/utils";
 const inputClassName =
   "w-full rounded-none border border-dotted border-[var(--color-ink-faded)] bg-[color-mix(in_srgb,var(--color-paper-dark)_40%,transparent)] px-3 py-2.5 font-[family-name:var(--font-courier)] text-base text-[var(--color-ink)] placeholder:text-[var(--color-placeholder)] placeholder:opacity-100 focus:border-2 focus:border-solid focus:border-[var(--color-ink)] focus:bg-[var(--color-paper)] focus:outline-none focus:ring-0";
 
-export const DossierInput = React.forwardRef<
-  HTMLInputElement,
-  React.ComponentProps<"input">
->(function DossierInput({ className, ...props }, ref) {
-  return <input ref={ref} className={cn(inputClassName, className)} {...props} />;
-});
+export const DossierInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+  function DossierInput({ className, ...props }, ref) {
+    return <input ref={ref} className={cn(inputClassName, className)} {...props} />;
+  },
+);
 
-export function DossierLabel({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"label">) {
+export function DossierLabel({ className, children, ...props }: React.ComponentProps<"label">) {
   return (
     <label className={cn("dossier-label mb-1 block", className)} {...props}>
       {children}
@@ -85,11 +80,7 @@ export function DossierLink({
   );
 }
 
-export function DossierFormMessage({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"p">) {
+export function DossierFormMessage({ className, children, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message ?? "") : children;
 
@@ -116,7 +107,12 @@ export function DossierFormPanelTitle({
   className?: string;
 }) {
   return (
-    <h2 className={cn("dossier-section-title mb-6 border-b border-[var(--color-ink-faded)] pb-3", className)}>
+    <h2
+      className={cn(
+        "dossier-section-title mb-6 border-b border-[var(--color-ink-faded)] pb-3",
+        className,
+      )}
+    >
       {children}
     </h2>
   );

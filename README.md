@@ -34,23 +34,23 @@ A classified form builder with a newspaper / case-file aesthetic. Creators build
 
 **Request paths**
 
-| Path | Role |
-|------|------|
-| `/trpc/*` | Primary API — typed procedures, shared with web via `@repo/trpc/client` |
-| `/api/*` | OpenAPI REST mirror of the same tRPC router (`trpc-to-openapi`) |
-| `/api/auth/*` | Better Auth (sign-in, session, OAuth) — not tRPC |
-| `/ws/analytics` | Live analytics WebSocket (creator session required) |
-| `/docs` | Scalar API reference |
+| Path            | Role                                                                    |
+| --------------- | ----------------------------------------------------------------------- |
+| `/trpc/*`       | Primary API — typed procedures, shared with web via `@repo/trpc/client` |
+| `/api/*`        | OpenAPI REST mirror of the same tRPC router (`trpc-to-openapi`)         |
+| `/api/auth/*`   | Better Auth (sign-in, session, OAuth) — not tRPC                        |
+| `/ws/analytics` | Live analytics WebSocket (creator session required)                     |
+| `/docs`         | Scalar API reference                                                    |
 
 **Shared packages**
 
-| Package | Purpose |
-|---------|---------|
-| `@repo/types` | Zod schemas + **inferred types** (`FormField`, `ResponseAnswers`, status enums) used by web, API, and DB |
-| `@repo/validators` | **Dynamic runtime Zod** — `buildZodSchema()` from DB field rows; discriminated union per field type |
-| `@repo/services` | Business logic (forms, fields, public submit, analytics, billing) |
-| `@repo/trpc` | Routers, context, client |
-| `@repo/database` | Drizzle schema, migrations, seed |
+| Package            | Purpose                                                                                                  |
+| ------------------ | -------------------------------------------------------------------------------------------------------- |
+| `@repo/types`      | Zod schemas + **inferred types** (`FormField`, `ResponseAnswers`, status enums) used by web, API, and DB |
+| `@repo/validators` | **Dynamic runtime Zod** — `buildZodSchema()` from DB field rows; discriminated union per field type      |
+| `@repo/services`   | Business logic (forms, fields, public submit, analytics, billing)                                        |
+| `@repo/trpc`       | Routers, context, client                                                                                 |
+| `@repo/database`   | Drizzle schema, migrations, seed                                                                         |
 
 ## Dynamic runtime Zod validation
 
@@ -69,34 +69,34 @@ Types are shared end-to-end: `FormField = z.infer<typeof formFieldSchema>` in `@
 
 `public.submit` runs these layers in order (defense in depth):
 
-| Layer | Check |
-|-------|--------|
-| 1 | **Rate limit** — per terminal fingerprint + form (`enforceSubmissionRateLimit`; Valkey or in-memory) |
-| 2 | **Input schema** — `submitFormInputSchema` (formId, submissionId, answers record) |
-| 3 | **Form exists** — row found, not soft-deleted |
-| 4 | **Status** — not `draft` |
-| 5 | **Visibility** — `published_public` or `published_unlisted` only |
-| 6 | **Field ownership** — strict dynamic schema: only visible field IDs allowed; unknown keys rejected |
-| 7 | **Required fields** — enforced in dynamic Zod |
-| 8 | **Type / option rules** — email, enums, number min/max, etc. |
-| 9 | **Dedup / spam** — idempotent `submissionId`; **terminal dedup** via `x-terminal-id` / IP / UA hash → `responses.ip_hash` |
-| 10 | **Concurrency** — `SELECT … FOR UPDATE` on form row when checking response limit |
-| 11 | **Transactional write** — `createWithSubmissionGuards()` in a DB transaction (limit + dedup + insert) |
-| 12 | **DB constraints** — unique `submission_id`; partial unique `(form_id, ip_hash)` |
+| Layer | Check                                                                                                                     |
+| ----- | ------------------------------------------------------------------------------------------------------------------------- |
+| 1     | **Rate limit** — per terminal fingerprint + form (`enforceSubmissionRateLimit`; Valkey or in-memory)                      |
+| 2     | **Input schema** — `submitFormInputSchema` (formId, submissionId, answers record)                                         |
+| 3     | **Form exists** — row found, not soft-deleted                                                                             |
+| 4     | **Status** — not `draft`                                                                                                  |
+| 5     | **Visibility** — `published_public` or `published_unlisted` only                                                          |
+| 6     | **Field ownership** — strict dynamic schema: only visible field IDs allowed; unknown keys rejected                        |
+| 7     | **Required fields** — enforced in dynamic Zod                                                                             |
+| 8     | **Type / option rules** — email, enums, number min/max, etc.                                                              |
+| 9     | **Dedup / spam** — idempotent `submissionId`; **terminal dedup** via `x-terminal-id` / IP / UA hash → `responses.ip_hash` |
+| 10    | **Concurrency** — `SELECT … FOR UPDATE` on form row when checking response limit                                          |
+| 11    | **Transactional write** — `createWithSubmissionGuards()` in a DB transaction (limit + dedup + insert)                     |
+| 12    | **DB constraints** — unique `submission_id`; partial unique `(form_id, ip_hash)`                                          |
 
 Set `IP_HASH_SALT` in production (see `.env.example`) so terminal fingerprints are not predictable.
 
 ## Database schema (high level)
 
-| Table | Notes |
-|-------|--------|
-| `user` | Creators (Better Auth) |
-| `session` | Server-side sessions (httpOnly cookie) |
-| `account` | Credential / OAuth linkage |
-| `forms` | Dossier metadata, `status` enum, `theme` JSONB, soft `deleted_at` |
-| `form_fields` | Field definitions, `sort_order`, `validation_config`, `visibility_config` |
-| `responses` | One row per submission; **`answers` JSONB** keyed by field UUID |
-| `form_funnel_sessions` | Multi-step dropoff / funnel analytics |
+| Table                  | Notes                                                                     |
+| ---------------------- | ------------------------------------------------------------------------- |
+| `user`                 | Creators (Better Auth)                                                    |
+| `session`              | Server-side sessions (httpOnly cookie)                                    |
+| `account`              | Credential / OAuth linkage                                                |
+| `forms`                | Dossier metadata, `status` enum, `theme` JSONB, soft `deleted_at`         |
+| `form_fields`          | Field definitions, `sort_order`, `validation_config`, `visibility_config` |
+| `responses`            | One row per submission; **`answers` JSONB** keyed by field UUID           |
+| `form_funnel_sessions` | Multi-step dropoff / funnel analytics                                     |
 
 Enums: `form_status`, `form_field_type`, `subscription_plan`. Cascading deletes from user → forms → fields / responses.
 
@@ -104,12 +104,12 @@ Answers are stored as JSONB (not a normalized `response_answers` table) for simp
 
 ## Auth (Better Auth)
 
-| Rubric concept | This project |
-|----------------|--------------|
-| Session cookie | httpOnly `better-auth.session_token` |
-| Server-side session | `session` table; revoke by invalidating rows |
-| Protected routes | Next.js middleware on `/dashboard`, `/forms/*`; tRPC `protectedProcedure` |
-| Public forms | No login required; `publicProcedure` + session still parsed if cookie present |
+| Rubric concept      | This project                                                                  |
+| ------------------- | ----------------------------------------------------------------------------- |
+| Session cookie      | httpOnly `better-auth.session_token`                                          |
+| Server-side session | `session` table; revoke by invalidating rows                                  |
+| Protected routes    | Next.js middleware on `/dashboard`, `/forms/*`; tRPC `protectedProcedure`     |
+| Public forms        | No login required; `publicProcedure` + session still parsed if cookie present |
 
 Public respondent flows do not require authentication. Creator mutations require a valid session.
 
@@ -186,11 +186,11 @@ pnpm dev
 
 ## Demo dossiers (after seed)
 
-| Form                      | Status   | Explore | Public URL                      |
-| ------------------------- | -------- | ------- | ------------------------------- |
-| Anime Personality Test    | Public   | Yes     | `/f/anime-character-poll`       |
-| Startup Hiring Form       | Public   | Yes     | `/f/startup-feedback`           |
-| Gaming Tournament Signup  | Unlisted | No      | `/f/gaming-tournament-signup`   |
+| Form                     | Status   | Explore | Public URL                    |
+| ------------------------ | -------- | ------- | ----------------------------- |
+| Anime Personality Test   | Public   | Yes     | `/f/anime-character-poll`     |
+| Startup Hiring Form      | Public   | Yes     | `/f/startup-feedback`         |
+| Gaming Tournament Signup | Unlisted | No      | `/f/gaming-tournament-signup` |
 
 `pnpm db:seed` **always resets first**: removes reserved demo slugs, leftover integration-test users (`*@integration.local`), then recreates the demo operative and 100 responses.
 

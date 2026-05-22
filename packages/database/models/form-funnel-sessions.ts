@@ -32,15 +32,9 @@ export const formFunnelSessionsTable = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
-    uniqueIndex("form_funnel_sessions_form_session_idx").on(
-      table.formId,
-      table.sessionKey,
-    ),
+    uniqueIndex("form_funnel_sessions_form_session_idx").on(table.formId, table.sessionKey),
     index("form_funnel_sessions_form_id_idx").on(table.formId),
-    index("form_funnel_sessions_form_submitted_idx").on(
-      table.formId,
-      table.submitted,
-    ),
+    index("form_funnel_sessions_form_submitted_idx").on(table.formId, table.submitted),
   ],
 );
 

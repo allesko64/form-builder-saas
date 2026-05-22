@@ -1,11 +1,7 @@
 import { z } from "zod";
 
 /** Subscription tier — matches DB `subscription_plan` enum. */
-export const subscriptionPlanSchema = z.enum([
-  "free",
-  "senior_handler",
-  "agency_bureau",
-]);
+export const subscriptionPlanSchema = z.enum(["free", "senior_handler", "agency_bureau"]);
 
 export type SubscriptionPlan = z.infer<typeof subscriptionPlanSchema>;
 

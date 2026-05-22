@@ -61,10 +61,11 @@ export function FormEditor({ formId }: FormEditorProps) {
   const [canvasNotice, setCanvasNotice] = useState<CanvasNotice | null>(null);
   const noticeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { data: form, isPending, isError } = trpc.form.getById.useQuery(
-    { id: formId },
-    { enabled: !!formId },
-  );
+  const {
+    data: form,
+    isPending,
+    isError,
+  } = trpc.form.getById.useQuery({ id: formId }, { enabled: !!formId });
 
   const invalidate = useCallback(() => {
     void utils.form.getById.invalidate({ id: formId });
@@ -117,9 +118,7 @@ export function FormEditor({ formId }: FormEditorProps) {
 
   const publishForm = trpc.form.publish.useMutation({
     onSuccess: (updated) => {
-      utils.form.getById.setData({ id: formId }, (prev) =>
-        prev ? { ...prev, ...updated } : prev,
-      );
+      utils.form.getById.setData({ id: formId }, (prev) => (prev ? { ...prev, ...updated } : prev));
       editor.invalidateList();
       toast.success("Dossier published");
     },
@@ -128,9 +127,7 @@ export function FormEditor({ formId }: FormEditorProps) {
 
   const unpublishForm = trpc.form.unpublish.useMutation({
     onSuccess: (updated) => {
-      utils.form.getById.setData({ id: formId }, (prev) =>
-        prev ? { ...prev, ...updated } : prev,
-      );
+      utils.form.getById.setData({ id: formId }, (prev) => (prev ? { ...prev, ...updated } : prev));
       editor.invalidateList();
       toast.success("Dossier returned to draft");
     },
@@ -149,8 +146,7 @@ export function FormEditor({ formId }: FormEditorProps) {
       type,
       label: meta?.defaultLabel ?? "New field",
       validationConfig: defaultValidationConfig(type),
-      placeholder:
-        type === "checkbox" ? "I confirm the above is accurate" : null,
+      placeholder: type === "checkbox" ? "I confirm the above is accurate" : null,
     });
   }
 
@@ -162,9 +158,7 @@ export function FormEditor({ formId }: FormEditorProps) {
     return (
       <div className="flex items-center gap-3 px-6 py-16 md:px-10">
         <Spinner className="size-5 text-[var(--color-ink)]" />
-        <p className="dossier-meta text-[var(--color-ink-faded)]">
-          LOADING CASE FILE...
-        </p>
+        <p className="dossier-meta text-[var(--color-ink-faded)]">LOADING CASE FILE...</p>
       </div>
     );
   }
@@ -175,10 +169,7 @@ export function FormEditor({ formId }: FormEditorProps) {
         <p className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[var(--color-ink)]">
           CASE FILE NOT FOUND
         </p>
-        <Link
-          href="/dashboard"
-          className="mt-4 inline-block dossier-nav text-[var(--color-stamp)]"
-        >
+        <Link href="/dashboard" className="mt-4 inline-block dossier-nav text-[var(--color-stamp)]">
           ← RETURN TO OVERVIEW
         </Link>
       </div>
@@ -194,10 +185,7 @@ export function FormEditor({ formId }: FormEditorProps) {
   }
 
   const isMutating =
-    createField.isPending ||
-    editor.isSyncing ||
-    deleteField.isPending ||
-    reorderFields.isPending;
+    createField.isPending || editor.isSyncing || deleteField.isPending || reorderFields.isPending;
 
   return (
     <div className="flex flex-col">
@@ -303,16 +291,11 @@ export function FormEditor({ formId }: FormEditorProps) {
       ) : (
         <div className="grid flex-1 grid-cols-1 lg:grid-cols-[220px_1fr_300px] xl:grid-cols-[240px_1fr_320px]">
           <aside className="border-b-2 border-[var(--color-ink)] px-4 py-6 lg:border-b-0 lg:border-r-2">
-            <FieldPalette
-              onAddAction={handleAddField}
-              disabled={createField.isPending}
-            />
+            <FieldPalette onAddAction={handleAddField} disabled={createField.isPending} />
           </aside>
 
           <section className="relative px-4 py-6 md:px-6">
-            <p className="mb-4 dossier-kicker text-[var(--color-ink)]">
-              DIRECTIVE CANVAS
-            </p>
+            <p className="mb-4 dossier-kicker text-[var(--color-ink)]">DIRECTIVE CANVAS</p>
 
             <AnimatePresence>
               {canvasNotice && (
@@ -328,9 +311,7 @@ export function FormEditor({ formId }: FormEditorProps) {
                     rotate={canvasNotice === "filed" ? -6 : 5}
                     size="lg"
                   >
-                    {canvasNotice === "filed"
-                      ? "DIRECTIVE FILED"
-                      : "DIRECTIVE REMOVED"}
+                    {canvasNotice === "filed" ? "DIRECTIVE FILED" : "DIRECTIVE REMOVED"}
                   </DossierStamp>
                 </motion.div>
               )}
@@ -349,52 +330,48 @@ export function FormEditor({ formId }: FormEditorProps) {
           </section>
 
           <aside className="border-t-2 border-[var(--color-ink)] px-4 py-6 lg:border-l-2 lg:border-t-0">
-              <p className="mb-4 dossier-kicker text-[var(--color-ink-faded)]">
-                {rightPanel === "field"
-                  ? "FIELD DIRECTIVE"
-                  : rightPanel === "settings"
-                    ? "DOSSIER SETTINGS"
-                    : "PUBLICATION"}
-              </p>
+            <p className="mb-4 dossier-kicker text-[var(--color-ink-faded)]">
+              {rightPanel === "field"
+                ? "FIELD DIRECTIVE"
+                : rightPanel === "settings"
+                  ? "DOSSIER SETTINGS"
+                  : "PUBLICATION"}
+            </p>
 
-              {rightPanel === "field" ? (
-                <FieldConfigPanel
-                  field={selectedField}
-                  allFields={sortedFields}
-                  syncRevision={editor.syncRevision}
-                  onQueuePatchAction={(patch) => {
-                    if (!selectedField) return;
-                    editor.queueFieldPatch(selectedField.id, patch);
-                  }}
-                  onApplyNowAction={(patch) => {
-                    if (!selectedField) return;
-                    editor.applyFieldPatchNow(selectedField.id, patch);
-                  }}
-                />
-              ) : null}
-              {rightPanel === "settings" ? (
-                <FormSettingsPanel
-                  form={form}
-                  syncRevision={editor.syncRevision}
-                  onQueuePatchAction={editor.queueFormPatch}
-                  onApplyNowAction={editor.applyFormPatchNow}
-                />
-              ) : null}
-              {rightPanel === "publish" ? (
-                <PublishPanel
-                  form={form}
-                  hasDirectives={hasDirectives}
-                  isPublishing={
-                    publishForm.isPending || unpublishForm.isPending
-                  }
-                  onPublish={handlePublish}
-                  onUnpublish={() => unpublishForm.mutate({ id: form.id })}
-                />
-              ) : null}
+            {rightPanel === "field" ? (
+              <FieldConfigPanel
+                field={selectedField}
+                allFields={sortedFields}
+                syncRevision={editor.syncRevision}
+                onQueuePatchAction={(patch) => {
+                  if (!selectedField) return;
+                  editor.queueFieldPatch(selectedField.id, patch);
+                }}
+                onApplyNowAction={(patch) => {
+                  if (!selectedField) return;
+                  editor.applyFieldPatchNow(selectedField.id, patch);
+                }}
+              />
+            ) : null}
+            {rightPanel === "settings" ? (
+              <FormSettingsPanel
+                form={form}
+                syncRevision={editor.syncRevision}
+                onQueuePatchAction={editor.queueFormPatch}
+                onApplyNowAction={editor.applyFormPatchNow}
+              />
+            ) : null}
+            {rightPanel === "publish" ? (
+              <PublishPanel
+                form={form}
+                hasDirectives={hasDirectives}
+                isPublishing={publishForm.isPending || unpublishForm.isPending}
+                onPublish={handlePublish}
+                onUnpublish={() => unpublishForm.mutate({ id: form.id })}
+              />
+            ) : null}
 
-              {isMutating ? (
-                <p className="dossier-meta mt-4">SYNCING...</p>
-              ) : null}
+            {isMutating ? <p className="dossier-meta mt-4">SYNCING...</p> : null}
           </aside>
         </div>
       )}

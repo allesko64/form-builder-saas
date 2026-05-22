@@ -18,9 +18,7 @@ import {
 const CACHE_DEBOUNCE_MS = 80;
 const PERSIST_DEBOUNCE_MS = 450;
 
-export function useOptimisticFormEditor(formId: string
-  
-) {
+export function useOptimisticFormEditor(formId: string) {
   const utils = trpc.useUtils();
   const [syncRevision, setSyncRevision] = useState(0);
   const rollbackSnapshotRef = useRef<EditorForm | null>(null);
@@ -28,8 +26,7 @@ export function useOptimisticFormEditor(formId: string
   const pendingFormPatchRef = useRef<FormPatch>({});
 
   const takeSnapshot = useCallback(() => {
-    rollbackSnapshotRef.current =
-      utils.form.getById.getData({ id: formId }) ?? null;
+    rollbackSnapshotRef.current = utils.form.getById.getData({ id: formId }) ?? null;
   }, [formId, utils]);
 
   const rollback = useCallback(() => {
@@ -120,12 +117,9 @@ export function useOptimisticFormEditor(formId: string
     updateForm.mutate({ id: formId, ...patch });
   }, [formId, updateForm]);
 
-  const debouncedPatchFieldCache = useDebouncedCallback(
-    (fieldId: string, patch: FieldPatch) => {
-      patchFieldCache(fieldId, patch);
-    },
-    CACHE_DEBOUNCE_MS,
-  );
+  const debouncedPatchFieldCache = useDebouncedCallback((fieldId: string, patch: FieldPatch) => {
+    patchFieldCache(fieldId, patch);
+  }, CACHE_DEBOUNCE_MS);
 
   const debouncedPersistField = useDebouncedCallback((fieldId: string) => {
     flushFieldPersist(fieldId);

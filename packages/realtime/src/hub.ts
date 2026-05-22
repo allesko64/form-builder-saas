@@ -17,10 +17,7 @@ export class AnalyticsRealtimeHub {
   private readonly clients = new Map<string, RoomClient>();
   private readonly rooms = new Map<string, Set<string>>();
 
-  public join(
-    socket: SocketLike,
-    params: { userId: string; formId: string },
-  ): string {
+  public join(socket: SocketLike, params: { userId: string; formId: string }): string {
     const viewerId = randomUUID();
     const client: RoomClient = {
       viewerId,

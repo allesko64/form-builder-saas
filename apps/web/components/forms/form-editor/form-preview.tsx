@@ -26,11 +26,7 @@ export function FormPreview({ form, previewValues, onPreviewChange }: FormPrevie
           <h2 className="mt-2 font-[family-name:var(--font-playfair)] text-2xl font-black text-[var(--color-ink)]">
             {form.title}
           </h2>
-          {form.description ? (
-            <p className="mt-2 dossier-body">
-              {form.description}
-            </p>
-          ) : null}
+          {form.description ? <p className="mt-2 dossier-body">{form.description}</p> : null}
         </div>
         <DossierStamp variant="brass" rotate={3} size="xs">
           PREVIEW

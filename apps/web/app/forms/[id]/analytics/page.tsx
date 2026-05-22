@@ -45,19 +45,15 @@ export default function FormAnalyticsPage() {
   const live = useAnalyticsLive(formId);
   const usePolling = !live.isLive;
 
-  const { data: form } = trpc.form.getById.useQuery(
-    { id: formId },
-    { enabled: !!formId },
-  );
+  const { data: form } = trpc.form.getById.useQuery({ id: formId }, { enabled: !!formId });
 
-  const { data: overviewQuery, isPending: overviewPending } =
-    trpc.analytics.overview.useQuery(
-      { formId },
-      {
-        enabled: !!formId,
-        refetchInterval: usePolling ? POLL_MS : false,
-      },
-    );
+  const { data: overviewQuery, isPending: overviewPending } = trpc.analytics.overview.useQuery(
+    { formId },
+    {
+      enabled: !!formId,
+      refetchInterval: usePolling ? POLL_MS : false,
+    },
+  );
 
   const { data: byDayQuery, isPending: byDayPending } = trpc.analytics.byDay.useQuery(
     { formId },
@@ -80,10 +76,7 @@ export default function FormAnalyticsPage() {
   const overview = live.overview ?? overviewQuery;
   const byDay = live.byDay ?? byDayQuery;
 
-  const exportCsv = trpc.analytics.exportCsv.useQuery(
-    { formId },
-    { enabled: false },
-  );
+  const exportCsv = trpc.analytics.exportCsv.useQuery({ formId }, { enabled: false });
 
   async function handleExport() {
     try {
@@ -172,9 +165,7 @@ export default function FormAnalyticsPage() {
         {loading ? (
           <div className="mt-12 flex items-center gap-3">
             <Spinner className="size-5" />
-            <span className="dossier-meta text-[var(--color-ink-faded)]">
-              COMPILING INTEL...
-            </span>
+            <span className="dossier-meta text-[var(--color-ink-faded)]">COMPILING INTEL...</span>
           </div>
         ) : (
           <>
@@ -205,9 +196,7 @@ export default function FormAnalyticsPage() {
                   key={label}
                   className="border-b-2 border-[var(--color-ink)] px-6 py-5 last:border-b-0 sm:border-b-0 lg:border-r-2 lg:last:border-r-0"
                 >
-                  <p className="dossier-meta text-[var(--color-ink-faded)]">
-                    {label}
-                  </p>
+                  <p className="dossier-meta text-[var(--color-ink-faded)]">{label}</p>
                   <p className="mt-2 font-[family-name:var(--font-playfair)] text-3xl font-black tabular-nums text-[var(--color-ink)]">
                     {value}
                   </p>
@@ -217,20 +206,14 @@ export default function FormAnalyticsPage() {
 
             {funnel && funnel.steps.length > 0 ? (
               <div className="mt-10 border-2 border-[var(--color-ink)] p-4 md:p-6">
-                <p className="mb-1 dossier-kicker text-[var(--color-ink)]">
-                  CONVERSION FUNNEL
-                </p>
+                <p className="mb-1 dossier-kicker text-[var(--color-ink)]">CONVERSION FUNNEL</p>
                 <p className="mb-4 dossier-meta text-[var(--color-ink-faded)]">
-                  Sessions tracked per step · {funnel.formStarts} opened ·{" "}
-                  {funnel.submissions} submitted
+                  Sessions tracked per step · {funnel.formStarts} opened · {funnel.submissions}{" "}
+                  submitted
                 </p>
                 <div className="h-72 w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={funnel.steps}
-                      layout="vertical"
-                      margin={{ left: 8, right: 16 }}
-                    >
+                    <BarChart data={funnel.steps} layout="vertical" margin={{ left: 8, right: 16 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="var(--color-ink-faded)" />
                       <XAxis type="number" tick={{ fontSize: 10 }} allowDecimals={false} />
                       <YAxis
@@ -250,9 +233,7 @@ export default function FormAnalyticsPage() {
                             retentionRate?: number;
                             stepDropoffRate?: number | null;
                           };
-                          const retention = Math.round(
-                            (payload.retentionRate ?? 0) * 100,
-                          );
+                          const retention = Math.round((payload.retentionRate ?? 0) * 100);
                           const drop =
                             payload.stepDropoffRate === null
                               ? "—"
@@ -288,9 +269,7 @@ export default function FormAnalyticsPage() {
 
             {byDay && byDay.length > 0 ? (
               <div className="mt-10 border-2 border-[var(--color-ink)] p-4 md:p-6">
-                <p className="mb-4 dossier-kicker text-[var(--color-ink)]">
-                  RESPONSES OVER TIME
-                </p>
+                <p className="mb-4 dossier-kicker text-[var(--color-ink)]">RESPONSES OVER TIME</p>
                 <div className="h-64 w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={byDay}>
@@ -322,9 +301,7 @@ export default function FormAnalyticsPage() {
 
             {byField && byField.length > 0 ? (
               <div className="mt-10 space-y-8">
-                <p className="dossier-kicker text-[var(--color-ink)]">
-                  FIELD DISTRIBUTIONS
-                </p>
+                <p className="dossier-kicker text-[var(--color-ink)]">FIELD DISTRIBUTIONS</p>
                 {byField.map((item) => {
                   const chartData = item.stats.optionCounts
                     ? Object.entries(item.stats.optionCounts).map(([name, count]) => ({
@@ -364,7 +341,10 @@ export default function FormAnalyticsPage() {
                         <div className="mt-4 h-48">
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={chartData} layout="vertical">
-                              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-ink-faded)" />
+                              <CartesianGrid
+                                strokeDasharray="3 3"
+                                stroke="var(--color-ink-faded)"
+                              />
                               <XAxis type="number" tick={{ fontSize: 10 }} />
                               <YAxis
                                 type="category"
@@ -405,15 +385,13 @@ export default function FormAnalyticsPage() {
                             </ul>
                           ) : (
                             <p className="mt-3 dossier-body text-sm text-[var(--color-ink-faded)]">
-                              No answers recorded for this directive yet. Check that
-                              responses were submitted after this field was added.
+                              No answers recorded for this directive yet. Check that responses were
+                              submitted after this field was added.
                             </p>
                           )}
                         </div>
                       ) : (
-                        <p className="mt-2 dossier-body text-sm">
-                          No distribution data yet.
-                        </p>
+                        <p className="mt-2 dossier-body text-sm">No distribution data yet.</p>
                       )}
                     </div>
                   );

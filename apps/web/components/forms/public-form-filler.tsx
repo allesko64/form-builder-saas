@@ -113,12 +113,11 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
 
     lastRecordedFunnelRef.current = { formId: form.id, stepIndex: currentStep };
     recordFunnelProgress({ formId: form.id, stepIndex: currentStep });
-    // recordFunnelProgress (mutate) is stable; omit from deps to avoid mutation-state re-runs
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form?.id, currentStep, existingSubmissionId]);
 
   // True when the form has collectRespondentEmail and the current step is the last
-  const showEmailToggle = (isLastStep: boolean) =>
-    isLastStep && !!form?.collectRespondentEmail;
+  const showEmailToggle = (isLastStep: boolean) => isLastStep && !!form?.collectRespondentEmail;
 
   function markStarted() {
     if (startMsRef.current === null) {
@@ -247,8 +246,8 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
           DOSSIER ALREADY ON FILE
         </DossierStamp>
         <p className="mt-6 dossier-body">
-          Our records indicate you have already filed a report on this terminal from this
-          device. Each operative may submit one report per terminal.
+          Our records indicate you have already filed a report on this terminal from this device.
+          Each operative may submit one report per terminal.
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <Link
@@ -303,10 +302,7 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
     .toUpperCase();
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="relative mx-auto max-w-2xl px-6 py-10 md:px-8"
-    >
+    <form onSubmit={handleFormSubmit} className="relative mx-auto max-w-2xl px-6 py-10 md:px-8">
       {/* ── Header: case metadata ─────────────────────────────────── */}
       <div className="mb-10 border-b-2 border-[var(--color-ink)] pb-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -382,15 +378,11 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
             </h2>
 
             {field.required && (
-              <p className="mb-5 dossier-meta text-[var(--color-stamp)]">
-                CLASSIFIED — MANDATORY
-              </p>
+              <p className="mb-5 dossier-meta text-[var(--color-stamp)]">CLASSIFIED — MANDATORY</p>
             )}
 
             {field.helpText && (
-              <p className="mb-6 dossier-body text-[var(--color-ink-faded)]">
-                {field.helpText}
-              </p>
+              <p className="mb-6 dossier-body text-[var(--color-ink-faded)]">{field.helpText}</p>
             )}
 
             <div className="mt-6">

@@ -35,11 +35,7 @@ export function FormFieldRenderer({
           ) : null}
         </label>
       )}
-      {field.helpText ? (
-        <p className="dossier-body text-sm">
-          {field.helpText}
-        </p>
-      ) : null}
+      {field.helpText ? <p className="dossier-body text-sm">{field.helpText}</p> : null}
 
       {field.type === "short_text" || field.type === "email" ? (
         <input
@@ -70,9 +66,7 @@ export function FormFieldRenderer({
           placeholder={field.placeholder ?? undefined}
           value={value === null || value === undefined ? "" : String(value)}
           disabled={disabled}
-          onChange={(e) =>
-            onChange(e.target.value === "" ? null : Number(e.target.value))
-          }
+          onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))}
         />
       ) : null}
 
@@ -148,24 +142,22 @@ export function FormFieldRenderer({
 
       {field.type === "rating" ? (
         <div className="flex gap-2">
-          {Array.from({ length: field.validationConfig?.max ?? 5 }, (_, i) => i + 1).map(
-            (n) => (
-              <button
-                key={n}
-                type="button"
-                disabled={disabled}
-                className={cn(
-                  "border-2 px-3 py-2 font-[family-name:var(--font-courier)] text-sm font-bold transition-colors",
-                  value === n
-                    ? "border-[var(--color-stamp)] bg-[var(--color-stamp)] text-[var(--color-paper)]"
-                    : "border-[var(--color-ink-faded)] text-[var(--color-ink-faded)] hover:border-[var(--color-ink)]",
-                )}
-                onClick={() => onChange(n)}
-              >
-                {n}
-              </button>
-            ),
-          )}
+          {Array.from({ length: field.validationConfig?.max ?? 5 }, (_, i) => i + 1).map((n) => (
+            <button
+              key={n}
+              type="button"
+              disabled={disabled}
+              className={cn(
+                "border-2 px-3 py-2 font-[family-name:var(--font-courier)] text-sm font-bold transition-colors",
+                value === n
+                  ? "border-[var(--color-stamp)] bg-[var(--color-stamp)] text-[var(--color-paper)]"
+                  : "border-[var(--color-ink-faded)] text-[var(--color-ink-faded)] hover:border-[var(--color-ink)]",
+              )}
+              onClick={() => onChange(n)}
+            >
+              {n}
+            </button>
+          ))}
         </div>
       ) : null}
     </div>

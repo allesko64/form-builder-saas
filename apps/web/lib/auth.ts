@@ -9,10 +9,7 @@ export function getAuthBaseUrl(requestOrigin?: string): string {
   );
 }
 
-export async function getSessionFromRequest(
-  cookieHeader: string | null,
-  requestOrigin?: string,
-) {
+export async function getSessionFromRequest(cookieHeader: string | null, requestOrigin?: string) {
   const base = getAuthBaseUrl(requestOrigin);
   const res = await fetch(`${base}/api/auth/get-session`, {
     headers: cookieHeader ? { cookie: cookieHeader } : {},

@@ -26,8 +26,7 @@ export function PublishPanel({
   onPublish,
   onUnpublish,
 }: PublishPanelProps) {
-  const isPublished =
-    form.status === "published_public" || form.status === "published_unlisted";
+  const isPublished = form.status === "published_public" || form.status === "published_unlisted";
   const shareUrl = publicFormUrl(form.slug);
 
   async function copyLink() {
@@ -41,9 +40,7 @@ export function PublishPanel({
 
   return (
     <div className="space-y-5">
-      <p className="dossier-kicker text-[var(--color-stamp)]">
-        PUBLICATION DIRECTIVE
-      </p>
+      <p className="dossier-kicker text-[var(--color-stamp)]">PUBLICATION DIRECTIVE</p>
 
       <div className="flex items-center gap-3">
         <DossierStamp
@@ -61,8 +58,8 @@ export function PublishPanel({
             NO DIRECTIVES ON FILE
           </DossierStamp>
           <p className="mt-3 dossier-body text-sm text-[var(--color-ink-faded)]">
-            File at least one directive on the canvas before this dossier can be
-            transmitted to a public or unlisted terminal.
+            File at least one directive on the canvas before this dossier can be transmitted to a
+            public or unlisted terminal.
           </p>
         </div>
       ) : null}
@@ -70,11 +67,7 @@ export function PublishPanel({
       <div className="space-y-2">
         <button
           type="button"
-          disabled={
-            !hasDirectives ||
-            isPublishing ||
-            form.status === "published_public"
-          }
+          disabled={!hasDirectives || isPublishing || form.status === "published_public"}
           onClick={() => onPublish("published_public")}
           className={cn(
             "w-full border-2 px-4 py-3 dossier-nav transition-colors disabled:opacity-50",
@@ -91,11 +84,7 @@ export function PublishPanel({
 
         <button
           type="button"
-          disabled={
-            !hasDirectives ||
-            isPublishing ||
-            form.status === "published_unlisted"
-          }
+          disabled={!hasDirectives || isPublishing || form.status === "published_unlisted"}
           onClick={() => onPublish("published_unlisted")}
           className={cn(
             "w-full border-2 px-4 py-3 dossier-nav transition-colors disabled:opacity-50",
@@ -124,9 +113,7 @@ export function PublishPanel({
 
       {isPublished ? (
         <div className="border-t-2 border-dashed border-[var(--color-ink-faded)] pt-5">
-          <p className="dossier-nav text-[var(--color-ink-faded)]">
-            TRANSMISSION LINK
-          </p>
+          <p className="dossier-nav text-[var(--color-ink-faded)]">TRANSMISSION LINK</p>
           <div className="mt-2 flex gap-2">
             <input
               readOnly
@@ -151,9 +138,7 @@ export function PublishPanel({
               <ExternalLink className="size-4" />
             </a>
           </div>
-          <p className="dossier-caption mt-2">
-            SLUG /{form.slug}
-          </p>
+          <p className="dossier-caption mt-2">SLUG /{form.slug}</p>
         </div>
       ) : null}
     </div>
