@@ -111,7 +111,7 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
       formId: form.id,
       stepIndex: currentStep,
     });
-  }, [form?.id, currentStep, existingSubmissionId]);
+  }, [form?.id, currentStep, existingSubmissionId, recordFunnelMutation]);
 
   // True when the form has collectRespondentEmail and the current step is the last
   const showEmailToggle = (isLastStep: boolean) =>

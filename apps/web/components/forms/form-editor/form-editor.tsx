@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import type { FormFieldType } from "@repo/types";
-import type { RouterOutputs } from "@repo/trpc/client";
 
 import { DossierConfirmDialog } from "~/components/dossier/confirm-dialog";
 import { DossierStamp } from "~/components/dossier/stamp";
@@ -22,7 +21,6 @@ import { FormSettingsPanel } from "./form-settings-panel";
 import { PublishPanel } from "./publish-panel";
 import { SortableFieldList } from "./sortable-field-list";
 
-type Form = RouterOutputs["form"]["getById"];
 type EditorTab = "build" | "preview";
 type RightPanel = "field" | "settings" | "publish";
 

@@ -1,4 +1,4 @@
-import type { FormField, FormFieldType, VisibilityConfig, VisibilityRule } from "@repo/types";
+import type { FormField, FormFieldType, VisibilityRule } from "@repo/types";
 
 export type FieldWithVisibility = FormField;
 

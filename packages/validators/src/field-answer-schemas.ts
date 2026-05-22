@@ -101,7 +101,7 @@ export type FieldAnswerPayload = z.infer<typeof fieldAnswerPayloadSchema>;
 const fieldValueSchemaFactories = {
   short_text: buildTextValueSchema,
   long_text: buildTextValueSchema,
-  email: (_config: ValidationConfig | null) => z.string().email("Invalid email address"),
+  email: () => z.string().email("Invalid email address"),
   number: buildNumberValueSchema,
   single_select: (config: ValidationConfig | null) => selectEnumSchema(config?.options),
   multi_select: (config: ValidationConfig | null) => z.array(selectEnumSchema(config?.options)),
@@ -110,8 +110,8 @@ const fieldValueSchemaFactories = {
       .number()
       .min(1)
       .max(config?.max ?? 5),
-  date: (_config: ValidationConfig | null) => z.string().datetime(),
-  checkbox: (_config: ValidationConfig | null) => z.boolean(),
+  date: () => z.string().datetime(),
+  checkbox: () => z.boolean(),
 } as const satisfies Record<FormFieldType, (config: ValidationConfig | null) => z.ZodTypeAny>;
 
 /** Value schema for one form field (keyed by field id in `buildZodSchema`). */
