@@ -15,7 +15,17 @@
     },
     "test": {
       "dependsOn": ["^test"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "passThroughEnv": [
+        "DATABASE_URL",
+        "BETTER_AUTH_SECRET",
+        "BASE_URL",
+        "WEB_APP_URL",
+        "GOOGLE_OAUTH_CLIENT_ID",
+        "GOOGLE_OAUTH_CLIENT_SECRET",
+        "IP_HASH_SALT"
+      ],
+      "cache": false
     },
     "dev": {
       "cache": false,

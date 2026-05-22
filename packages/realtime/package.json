@@ -2,10 +2,10 @@
   "name": "@repo/realtime",
   "version": "1.0.0",
   "private": true,
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./src/index.ts",
       "default": "./dist/index.cjs"
     }
   },

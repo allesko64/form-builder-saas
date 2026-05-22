@@ -1,4 +1,5 @@
 import AnalyticsServiceImport from "@repo/services/analytics";
+import FormServiceImport from "@repo/services/form";
 import PublicServiceImport from "@repo/services/public";
 import ResponseServiceImport from "@repo/services/response";
 
@@ -13,5 +14,6 @@ function resolveDefault<T>(mod: unknown): Constructable<T> {
 }
 
 export const analyticsService = new (resolveDefault(AnalyticsServiceImport))();
+export const formService = new (resolveDefault(FormServiceImport))();
 export const publicService = new (resolveDefault(PublicServiceImport))();
 export const responseService = new (resolveDefault(ResponseServiceImport))();

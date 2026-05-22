@@ -2,12 +2,11 @@ import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 
 import { PlanLimitError } from "@repo/services/billing/model";
-import FormService from "@repo/services/form";
 
 import { cleanupForm, cleanupUser, createTestUser } from "./helpers/fixtures.js";
+import { formService } from "./helpers/services.js";
 
 describe("billing plan limits (integration)", () => {
-  const formService = new FormService();
   const createdUserIds: string[] = [];
   const createdFormIds: string[] = [];
 
