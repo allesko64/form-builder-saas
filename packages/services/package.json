@@ -1,0 +1,42 @@
+{
+  "name": "@repo/services",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./analytics": "./analytics/index.ts",
+    "./analytics/model": "./analytics/model.ts",
+    "./analytics/metrics": "./analytics/metrics.ts",
+    "./public": "./public/index.ts",
+    "./public/model": "./public/model.ts",
+    "./response": "./response/index.ts",
+    "./field": "./field/index.ts",
+    "./field/model": "./field/model.ts",
+    "./form": "./form/index.ts",
+    "./form/model": "./form/model.ts",
+    "./billing": "./billing/index.ts",
+    "./billing/model": "./billing/model.ts",
+    "./user": "./user/index.ts",
+    "./user/model": "./user/model.ts"
+  },
+  "scripts": {
+    "test": "tsx --test analytics/metrics.test.ts billing/limits.test.ts"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "dotenv-cli": "^11.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@repo/types": "workspace:*",
+    "@repo/database": "workspace:*",
+    "@repo/logger": "workspace:*",
+    "@repo/email": "workspace:*",
+    "@repo/logger": "workspace:*",
+    "@repo/validators": "workspace:*",
+    "ioredis": "^5.6.1",
+    "google-auth-library": "^10.5.0",
+    "zod": "^4.3.5"
+  }
+}

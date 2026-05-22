@@ -1,0 +1,45 @@
+{
+  "name": "@repo/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "dotenv -- tsx watch ./src/index.ts",
+    "build": "tsup",
+    "lint": "eslint src/*"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@swc/core": "^1.15.8",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/hpp": "^0.2.6",
+    "@types/node": "^22.15.3",
+    "@types/ws": "^8.5.13",
+    "dotenv-cli": "^11.0.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@repo/auth": "workspace:*",
+    "@repo/database": "workspace:*",
+    "@repo/logger": "workspace:*",
+    "@repo/realtime": "workspace:*",
+    "@repo/trpc": "workspace:*",
+    "@scalar/express-api-reference": "^0.8.30",
+    "@trpc/server": "^11.8.1",
+    "better-auth": "latest",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "ioredis": "^5.6.1",
+    "rate-limit-redis": "^4.3.1",
+    "trpc-to-openapi": "^3.2.0",
+    "ws": "^8.18.0",
+    "zod": "^4.3.5"
+  }
+}

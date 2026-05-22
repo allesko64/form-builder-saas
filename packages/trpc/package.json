@@ -1,0 +1,27 @@
+{
+  "name": "@repo/trpc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "tsx --test server/lib/ip.test.ts server/middleware/rate-limit.test.ts"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/express": "^5.0.6",
+    "dotenv-cli": "^11.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@repo/auth": "workspace:*",
+    "@repo/realtime": "workspace:*",
+    "@repo/services": "workspace:*",
+    "@repo/validators": "workspace:*",
+    "@trpc/client": "^11.8.1",
+    "@trpc/server": "^11.8.1",
+    "ioredis": "^5.6.1",
+    "trpc-to-openapi": "^3.2.0",
+    "zod": "^4.3.5"
+  }
+}

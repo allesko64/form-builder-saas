@@ -1,0 +1,23 @@
+{
+  "name": "@repo/integration-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "dotenv -e ../../.env -- tsx --test src/*.test.ts"
+  },
+  "dependencies": {
+    "@repo/auth": "workspace:*",
+    "@repo/database": "workspace:*",
+    "@repo/services": "workspace:*",
+    "@repo/validators": "workspace:*",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "dotenv-cli": "^11.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

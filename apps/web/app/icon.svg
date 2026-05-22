@@ -1,0 +1,48 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="32" fill="#F3E9D2"/>
+
+  <!-- Outer Border -->
+  <rect x="24" y="24" width="464" height="464" rx="18" stroke="#111111" stroke-width="8"/>
+
+  <!-- Newspaper Body -->
+  <rect x="92" y="92" width="328" height="328" fill="#F8F1E1" stroke="#111111" stroke-width="10"/>
+
+  <!-- Masthead -->
+  <rect x="92" y="92" width="328" height="72" fill="#111111"/>
+  <text x="256" y="138" text-anchor="middle" fill="#F3E9D2" font-family="Georgia, serif" font-size="30" font-weight="700" letter-spacing="3">
+    DOSSIER
+  </text>
+
+  <!-- Left Column -->
+  <rect x="118" y="186" width="92" height="12" fill="#111111" opacity="0.9"/>
+  <rect x="118" y="210" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="118" y="228" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="118" y="246" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="118" y="264" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="118" y="282" width="92" height="8" fill="#111111" opacity="0.55"/>
+
+  <!-- Center Classified Stamp -->
+  <circle cx="256" cy="272" r="68" stroke="#111111" stroke-width="10"/>
+  <circle cx="256" cy="272" r="52" stroke="#111111" stroke-width="4" stroke-dasharray="8 8"/>
+
+  <text x="256" y="266" text-anchor="middle" fill="#111111" font-family="Courier New, monospace" font-size="18" font-weight="700" letter-spacing="2">
+    CLASSIFIED
+  </text>
+
+  <text x="256" y="292" text-anchor="middle" fill="#111111" font-family="Courier New, monospace" font-size="12" font-weight="700" letter-spacing="4">
+    RESTRICTED
+  </text>
+
+  <!-- Right Column -->
+  <rect x="302" y="186" width="92" height="12" fill="#111111" opacity="0.9"/>
+  <rect x="302" y="210" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="302" y="228" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="302" y="246" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="302" y="264" width="92" height="8" fill="#111111" opacity="0.55"/>
+  <rect x="302" y="282" width="92" height="8" fill="#111111" opacity="0.55"/>
+
+  <!-- Bottom Footer -->
+  <rect x="118" y="350" width="276" height="10" fill="#111111" opacity="0.85"/>
+  <rect x="118" y="372" width="210" height="8" fill="#111111" opacity="0.5"/>
+  <rect x="118" y="390" width="160" height="8" fill="#111111" opacity="0.5"/>
+</svg>
