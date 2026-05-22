@@ -2,8 +2,12 @@
   "name": "@repo/realtime",
   "version": "1.0.0",
   "private": true,
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.cjs"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.cjs"
+    }
   },
   "scripts": {
     "build": "tsup"
