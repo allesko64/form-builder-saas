@@ -52,6 +52,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Create CI environment file
+        run: |
+          cat > .env <<EOF
+          DATABASE_URL=${{ env.DATABASE_URL }}
+          BETTER_AUTH_SECRET=${{ env.BETTER_AUTH_SECRET }}
+          BASE_URL=${{ env.BASE_URL }}
+          WEB_APP_URL=${{ env.WEB_APP_URL }}
+          GOOGLE_OAUTH_CLIENT_ID=${{ env.GOOGLE_OAUTH_CLIENT_ID }}
+          GOOGLE_OAUTH_CLIENT_SECRET=${{ env.GOOGLE_OAUTH_CLIENT_SECRET }}
+          IP_HASH_SALT=${{ env.IP_HASH_SALT }}
+          EOF
+
       - name: Apply database migrations
         run: pnpm db:migrate
 
