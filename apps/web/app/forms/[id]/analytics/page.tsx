@@ -69,8 +69,7 @@ export default function FormAnalyticsPage() {
 
   const { data: byField, isPending: byFieldPending } = trpc.analytics.byField.useQuery(
     { formId },
-    { enabled: !!formId },
-    { refetchInterval: usePolling ? POLL_MS : false },
+    { enabled: !!formId, refetchInterval: usePolling ? POLL_MS : false },
   );
 
   const { data: funnel, isPending: funnelPending } = trpc.analytics.funnel.useQuery(
