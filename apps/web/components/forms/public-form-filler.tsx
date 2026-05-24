@@ -155,7 +155,10 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
     const result = partialSchema.safeParse({ [field.id]: answers[field.id] });
 
     if (!result.success) {
-      const issues = z.flattenError(result.error).fieldErrors as Record<string, string[] | undefined>;
+      const issues = z.flattenError(result.error).fieldErrors as Record<
+        string,
+        string[] | undefined
+      >;
       const next: Record<string, string> = {};
       for (const [key, msgs] of Object.entries(issues)) {
         if (msgs?.[0]) next[key] = msgs[0];
@@ -194,7 +197,10 @@ export function PublicFormFiller({ slug }: PublicFormFillerProps) {
 
     const parsed = zodSchema.safeParse(answers);
     if (!parsed.success) {
-      const issues = z.flattenError(parsed.error).fieldErrors as Record<string, string[] | undefined>;
+      const issues = z.flattenError(parsed.error).fieldErrors as Record<
+        string,
+        string[] | undefined
+      >;
       const next: Record<string, string> = {};
       for (const [key, msgs] of Object.entries(issues)) {
         if (msgs?.[0]) next[key] = msgs[0];

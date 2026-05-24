@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,6 +22,24 @@ const CAPABILITIES = [
   { label: "EMAIL NOTIFICATIONS", value: "ENABLED" },
   { label: "CSV EXPORT", value: "AVAILABLE" },
   { label: "CLASSIFICATION", value: "PUBLIC / UNLISTED" },
+];
+
+const CONTACTS = [
+  {
+    label: "TWITTER",
+    value: "@ayush__64",
+    href: "https://x.com/ayush__64",
+  },
+  {
+    label: "LINKEDIN",
+    value: "AYUSH SHARMA",
+    href: "https://www.linkedin.com/in/ayush-sharma-5b7938282/",
+  },
+  {
+    label: "GITHUB",
+    value: "@ayush__64",
+    href: "https://github.com/allesko64/form-builder-saas",
+  },
 ];
 
 function RedactionBar({ width = "80px" }: { width?: string }) {
@@ -116,6 +136,12 @@ function ManilaFolderStamps() {
   );
 }
 
+const STATS = [
+  { value: "∞", label: "FORMS", valueSize: "text-[2rem]" },
+  { value: "2 MIN", label: "AVG FILING", valueSize: "text-[1rem]" },
+  { value: "SECURE", label: "TRANSMISSION", valueSize: "text-[1rem]" },
+];
+
 function LeftColumnAtmosphere() {
   return (
     <div
@@ -143,10 +169,10 @@ export default function Home() {
 
           {/* ── MIDDLE — hero panel (paper) ── */}
           <div
-            className="relative z-10 flex min-h-[50vh] flex-col border-b border-[var(--color-ink-faded)] px-6 py-10 md:min-h-0 md:border-b-0 md:px-8 md:py-12"
+            className="relative z-10 flex min-h-[50vh] min-w-0 flex-col border-b border-[var(--color-ink-faded)] px-6 py-10 md:min-h-0 md:border-b-0 md:px-8 md:py-12"
             style={{ backgroundColor: "var(--color-paper)" }}
           >
-            <div className="relative z-10">
+            <div className="relative z-10 min-w-0">
               <p className="dossier-kicker text-[var(--color-ink)]">
                 FIELD BRIEFING · PUBLIC TERMINAL
               </p>
@@ -160,7 +186,6 @@ export default function Home() {
               <p className="dossier-body mt-6 max-w-md">
                 Build forms. Collect intelligence. File reports.
               </p>
-
               <div className="mt-10 flex flex-col gap-3">
                 <Link
                   href="/sign-up"
@@ -177,17 +202,54 @@ export default function Home() {
                   </span>
                 </Link>
               </div>
-            </div>
 
-            <blockquote className="relative z-10 mt-10 border-l-4 border-[var(--color-ink)] pl-4 pt-6 md:mt-12 md:pt-8">
-              <p className="font-[family-name:var(--font-playfair)] text-lg font-bold italic leading-snug text-[var(--color-ink)]">
-                &ldquo;The most dangerous weapon in any operative&apos;s arsenal is a well-filled
-                form.&rdquo;
-              </p>
-              <cite className="dossier-caption mt-2 block not-italic">
-                — DIRECTOR, DOSSIER OPERATIONS BUREAU
-              </cite>
-            </blockquote>
+              <div className="mt-10 pt-4 pb-4 flex w-full flex-row items-end justify-between">
+                {STATS.flatMap((stat, index) => [
+                  <div key={`${stat.label}-item`} className="flex flex-col items-center gap-2">
+                    <p
+                      className={`font-[family-name:var(--font-playfair)] ${stat.valueSize} font-black leading-none text-[var(--color-ink)]`}
+                    >
+                      {stat.value}
+                    </p>
+                    <p className="font-[family-name:var(--font-courier)] text-[1rem] font-bold uppercase tracking-[0.2em] text-[var(--color-ink-faded)] text-center">
+                      {stat.label}
+                    </p>
+                  </div>,
+                  index < STATS.length - 1 ? (
+                    <div
+                      key={`${stat.label}-divider`}
+                      className="w-[1px] h-10 bg-[var(--color-ink-faded)] opacity-20 self-center"
+                    />
+                  ) : null,
+                ])}
+              </div>
+
+              <div className="pt-12 flex justify-center">
+                <div className="p-4 w-full max-w-md">
+                  <DossierStamp variant="red" rotate={-8} size="md">
+                    <div className="p-6 text-[1.05rem]">
+                      <p className="dossier-section-title">INCOMING TRANSMISSION · CASE #0042</p>
+                      <dl className="mt-3">
+                        {[
+                          { label: "FULL NAME", value: "AYUSH SHARMA" },
+                          { label: "EMAIL ADDRESS", value: "a*******@gmail.com" },
+                          { label: "AGE", value: "21" },
+                          { label: "PHONE NUMBER", value: "+91 *** *** 9584" },
+                        ].map(({ label, value }) => (
+                          <div
+                            key={label}
+                            className="flex items-center justify-between border-b border-dashed border-[var(--color-ink-faded)] py-1.5"
+                          >
+                            <dt className="dossier-label">{label}:</dt>
+                            <dd className="dossier-value">{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  </DossierStamp>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="hidden bg-[var(--color-ink)] md:block" />
@@ -231,6 +293,28 @@ export default function Home() {
               <DossierStamp variant="brass" rotate={5} size="xs">
                 LEVEL 5 ACCESS
               </DossierStamp>
+            </div>
+
+            <div className="pt-8 mb-6" />
+
+            <p className="font-[family-name:var(--font-courier)] text-[1rem] font-bold uppercase tracking-[0.2em] text-[var(--color-ink)] border-b-2 border-[var(--color-ink)] pb-2 mb-5">
+              INTELLIGENCE CONTACTS
+            </p>
+
+            <div className="space-y-4">
+              {CONTACTS.map(({ label, value, href }) => (
+                <div key={label}>
+                  <p className="dossier-label">{label}</p>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-[family-name:var(--font-playfair)] text-base font-bold text-[var(--color-ink)] hover:text-[var(--color-stamp)] transition-colors duration-200 after:content-['_→'] after:font-[family-name:var(--font-courier)] after:text-sm"
+                  >
+                    {value}
+                  </a>
+                </div>
+              ))}
             </div>
           </div>
         </div>
