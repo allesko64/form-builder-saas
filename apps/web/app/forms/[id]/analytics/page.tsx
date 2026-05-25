@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
+import { DossierConfirmDialog } from "~/components/dossier/confirm-dialog";
+import { dossierNavClass } from "~/components/dossier/nav-link";
 import { DossierPageShell } from "~/components/dossier/page-shell";
 import { Spinner } from "~/components/ui/spinner";
 import { useAnalyticsLive } from "~/hooks/use-analytics-live";
@@ -149,13 +151,17 @@ export default function FormAnalyticsPage() {
           >
             VIEW RESPONSES →
           </Link>
-          <button
-            type="button"
-            onClick={handleExport}
-            className="dossier-nav text-[var(--color-ink-faded)] hover:text-[var(--color-ink)]"
+          <DossierConfirmDialog
+            title="EXPORT RESPONSES"
+            description={`Download the recorded responses for "${form?.title ?? "this dossier"}" as a CSV file?`}
+            confirmLabel="DOWNLOAD CSV"
+            cancelLabel="STAND DOWN"
+            onConfirm={() => void handleExport()}
+            triggerDisabled={exportCsv.isFetching}
+            triggerClassName={dossierNavClass("secondary")}
           >
-            EXPORT CSV ↓
-          </button>
+            {exportCsv.isFetching ? "EXPORTING CSV..." : "EXPORT CSV ↓"}
+          </DossierConfirmDialog>
         </div>
 
         {loading ? (

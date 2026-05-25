@@ -40,7 +40,8 @@ export function FieldConfigPanel({
 
   useEffect(() => {
     if (field) setDraft(fieldToDraft(field));
-  }, [syncRevision, field]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keep active edits local; refresh only after rollback
+  }, [syncRevision]);
 
   if (!field || !draft) {
     return (
@@ -55,6 +56,8 @@ export function FieldConfigPanel({
   }
 
   const hasOptions = field.type === "single_select" || field.type === "multi_select";
+  const hasPlaceholder =
+    field.type !== "single_select" && field.type !== "multi_select" && field.type !== "rating";
 
   const controllerCandidates = allFields
     .filter((f) => f.id !== field.id)
@@ -76,13 +79,15 @@ export function FieldConfigPanel({
         />
       </div>
 
-      <div>
-        <DossierLabel>PLACEHOLDER</DossierLabel>
-        <DossierInput
-          value={draft.placeholder}
-          onChange={(e) => updateDraft("placeholder", { ...draft, placeholder: e.target.value })}
-        />
-      </div>
+      {hasPlaceholder ? (
+        <div>
+          <DossierLabel>PLACEHOLDER</DossierLabel>
+          <DossierInput
+            value={draft.placeholder}
+            onChange={(e) => updateDraft("placeholder", { ...draft, placeholder: e.target.value })}
+          />
+        </div>
+      ) : null}
 
       <div>
         <DossierLabel>FIELD NOTES (HELP)</DossierLabel>
@@ -145,7 +150,10 @@ export function FieldConfigPanel({
             onChange={(e) => {
               const next = { ...draft, visibilityEnabled: e.target.checked };
               setDraft(next);
-              onApplyNowAction(draftToFieldPatch(field, next, "visibilityEnabled"));
+              // Do not persist an enabled rule until it has a controlling directive.
+              if (!next.visibilityEnabled || next.visibilityFieldId) {
+                onApplyNowAction(draftToFieldPatch(field, next, "visibilityEnabled"));
+              }
             }}
           />
           SHOW / HIDE BASED ON ANOTHER DIRECTIVE

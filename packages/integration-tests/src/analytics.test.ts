@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { afterEach, describe, it } from "node:test";
 
 import { db } from "@repo/database";
-import { responsesTable } from "@repo/database/schema";
+import { formFieldsTable, responsesTable } from "@repo/database/schema";
 import { cleanupForm, cleanupUser, createPublishedForm, createTestUser } from "./helpers/fixtures";
 import { analyticsService, publicService } from "./helpers/services";
 
@@ -56,6 +56,43 @@ describe("analytics queries (integration)", () => {
     assert.ok(overview);
     assert.equal(overview.totalResponses, 1);
     assert.equal(overview.dropoffRate, dropoff.dropoffRate);
+  });
+
+  it("returns rating distribution counts together with the average", async () => {
+    const user = await createTestUser();
+    owner.id = user.id;
+
+    const created = await createPublishedForm(user.id);
+    form.formId = created.formId;
+
+    const ratingFieldId = randomUUID();
+    await db.insert(formFieldsTable).values({
+      id: ratingFieldId,
+      formId: form.formId,
+      label: "Satisfaction",
+      type: "rating",
+      required: true,
+      sortOrder: 1,
+      validationConfig: { max: 5 },
+      visibilityConfig: null,
+    });
+
+    for (const rating of [1, 4, 4]) {
+      await db.insert(responsesTable).values({
+        formId: form.formId,
+        submissionId: randomUUID(),
+        answers: { [ratingFieldId]: rating },
+        ipHash: `hash-${randomUUID()}`,
+        userAgent: "integration-test",
+      });
+    }
+
+    const byField = await analyticsService.byField(user.id, form.formId);
+    const ratingStats = byField?.find((item) => item.fieldId === ratingFieldId)?.stats;
+
+    assert.ok(ratingStats);
+    assert.equal(ratingStats.average, 3);
+    assert.deepEqual(ratingStats.optionCounts, { "1": 1, "4": 2 });
   });
 
   it("returns null analytics for forms not owned by user", async () => {

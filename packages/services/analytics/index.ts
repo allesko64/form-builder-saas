@@ -423,8 +423,7 @@ class AnalyticsService {
         }
         return { optionCounts };
       }
-      case "number":
-      case "rating": {
+      case "number": {
         const values = this.collectRawValues(field.id, responses);
         const numbers = values.map((v) => Number(v)).filter((n) => !Number.isNaN(n));
         if (numbers.length === 0) {
@@ -432,6 +431,27 @@ class AnalyticsService {
         }
         const sum = numbers.reduce((a, b) => a + b, 0);
         return {
+          min: Math.min(...numbers),
+          max: Math.max(...numbers),
+          average: sum / numbers.length,
+        };
+      }
+      case "rating": {
+        const values = this.collectRawValues(field.id, responses);
+        const numbers = values.map((v) => Number(v)).filter((n) => !Number.isNaN(n));
+        if (numbers.length === 0) {
+          return { min: undefined, max: undefined, average: undefined };
+        }
+
+        const optionCounts: Record<string, number> = {};
+        for (const rating of [...numbers].sort((a, b) => a - b)) {
+          const key = String(rating);
+          optionCounts[key] = (optionCounts[key] ?? 0) + 1;
+        }
+
+        const sum = numbers.reduce((a, b) => a + b, 0);
+        return {
+          optionCounts,
           min: Math.min(...numbers),
           max: Math.max(...numbers),
           average: sum / numbers.length,
