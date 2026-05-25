@@ -171,7 +171,7 @@ class PublicService {
     }
 
     if (!ctx.terminalHash) {
-      return { error: "already_submitted" };
+      return { error: "forbidden" };
     }
 
     const fields = await db

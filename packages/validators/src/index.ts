@@ -2,7 +2,6 @@ export { buildZodSchema } from "./form-schema-builder";
 export {
   buildFieldValueSchema,
   fieldAnswerPayloadSchema,
-  parseFieldAnswer,
   shortTextFieldAnswerSchema,
   longTextFieldAnswerSchema,
   emailFieldAnswerSchema,

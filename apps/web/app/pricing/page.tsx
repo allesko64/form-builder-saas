@@ -101,12 +101,21 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 {session?.user ? (
-                  <Link
-                    href="/dashboard"
-                    className="mt-6 block border-2 border-[var(--color-ink)] py-3 text-center dossier-nav text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
-                  >
-                    {isCurrent ? "CURRENT TIER" : "CONTACT FOR UPGRADE"}
-                  </Link>
+                  isCurrent ? (
+                    <Link
+                      href="/dashboard"
+                      className="mt-6 block border-2 border-[var(--color-ink)] py-3 text-center dossier-nav text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+                    >
+                      CURRENT TIER
+                    </Link>
+                  ) : (
+                    <a
+                      href={`mailto:contact@formbuilder.dev?subject=Upgrade request — ${plan.name}`}
+                      className="mt-6 block border-2 border-[var(--color-ink)] py-3 text-center dossier-nav text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+                    >
+                      REQUEST UPGRADE →
+                    </a>
+                  )
                 ) : (
                   <Link
                     href="/sign-up"
@@ -146,11 +155,6 @@ export default function PricingPage() {
             </tbody>
           </table>
         </div>
-
-        <p className="mt-6 dossier-body text-sm text-[var(--color-ink-faded)]">
-          Payment integration (Razorpay / Stripe) is scheduled for a future cycle. Plan limits are
-          active now.
-        </p>
       </div>
     </DossierPageShell>
   );

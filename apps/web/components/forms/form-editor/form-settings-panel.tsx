@@ -133,7 +133,7 @@ export function FormSettingsPanel({
         label="ALLOW SIGNED-IN RESPONDENT CONFIRMATION EMAIL"
         offLabel="DISABLED"
         onLabel="ENABLED"
-        description="When enabled, signed-in respondents can opt in to receive a confirmation copy at their account email. Anonymous visitors on the public link will not see this option. Requires Resend (RESEND_API_KEY, EMAIL_FROM) on the server."
+              description="When enabled, signed-in respondents can opt in to receive a confirmation copy at their account email. Anonymous visitors on the public link will not see this option."
       />
     </div>
   );

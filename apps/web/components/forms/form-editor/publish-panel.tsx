@@ -123,7 +123,7 @@ export function PublishPanel({
             <button
               type="button"
               onClick={copyLink}
-              className="border-2 border-[var(--color-ink)] px-3 text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+              className="inline-flex items-center justify-center border-2 border-[var(--color-ink)] px-3 text-[var(--color-ink)] hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
               aria-label="Copy link"
             >
               <Copy className="size-4" />
@@ -132,7 +132,7 @@ export function PublishPanel({
               href={shareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="border-2 border-[var(--color-brass)] px-3 text-[var(--color-brass)] hover:bg-[var(--color-brass)] hover:text-[var(--color-paper)]"
+              className="inline-flex items-center justify-center border-2 border-[var(--color-brass)] px-3 text-[var(--color-brass)] hover:bg-[var(--color-brass)] hover:text-[var(--color-paper)]"
               aria-label="Open public form"
             >
               <ExternalLink className="size-4" />

@@ -129,10 +129,3 @@ export function buildFieldValueSchema(field: FormField): z.ZodTypeAny {
   const schema = factory(field.validationConfig ?? null);
   return field.required ? schema : schema.optional().nullable();
 }
-
-/** Validate a single answer against its field's discriminated type branch. */
-export function parseFieldAnswer(field: FormField, value: unknown): FieldAnswerPayload["value"] {
-  const valueSchema = buildFieldValueSchema(field);
-  const parsed = valueSchema.parse(value);
-  return fieldAnswerPayloadSchema.parse({ type: field.type, value: parsed }).value;
-}

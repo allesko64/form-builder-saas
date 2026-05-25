@@ -9,8 +9,8 @@ const env = z
     BETTER_AUTH_SECRET: z.string(),
     BASE_URL: z.string().default("http://localhost:8000"),
     WEB_APP_URL: z.string().default("http://localhost:3000"),
-    GOOGLE_OAUTH_CLIENT_ID: z.string(),
-    GOOGLE_OAUTH_CLIENT_SECRET: z.string(),
+    GOOGLE_OAUTH_CLIENT_ID: z.string().optional(),
+    GOOGLE_OAUTH_CLIENT_SECRET: z.string().optional(),
   })
   .parse(process.env);
 
@@ -25,12 +25,15 @@ export const auth = betterAuth({
     schema: { user, session, account, verification },
   }),
   emailAndPassword: { enabled: true },
-  socialProviders: {
-    google: {
-      clientId: env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET,
-    },
-  },
+  socialProviders:
+    env.GOOGLE_OAUTH_CLIENT_ID && env.GOOGLE_OAUTH_CLIENT_SECRET
+      ? {
+          google: {
+            clientId: env.GOOGLE_OAUTH_CLIENT_ID,
+            clientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET,
+          },
+        }
+      : {},
   session: {
     expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24,

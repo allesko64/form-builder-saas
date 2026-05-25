@@ -8,8 +8,8 @@ const envSchema = z.object({
 
   BETTER_AUTH_SECRET: z.string(),
 
-  GOOGLE_OAUTH_CLIENT_ID: z.string(),
-  GOOGLE_OAUTH_CLIENT_SECRET: z.string(),
+  GOOGLE_OAUTH_CLIENT_ID: z.string().optional(),
+  GOOGLE_OAUTH_CLIENT_SECRET: z.string().optional(),
 
   VALKEY_URL: z.string().optional(),
   IP_HASH_SALT: z.string().optional(),

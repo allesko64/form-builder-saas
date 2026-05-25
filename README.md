@@ -80,6 +80,7 @@ Types are shared end-to-end: `FormField = z.infer<typeof formFieldSchema>` in `@
 | 7     | **Required fields** — enforced in dynamic Zod                                                                             |
 | 8     | **Type / option rules** — email, enums, number min/max, etc.                                                              |
 | 9     | **Dedup / spam** — idempotent `submissionId`; **terminal dedup** via `x-terminal-id` / IP / UA hash → `responses.ip_hash` |
+| 9b    | **Plan cap** — `billingService.canAcceptResponse(form.userId)` enforces the creator's monthly response quota per plan tier |
 | 10    | **Concurrency** — `SELECT … FOR UPDATE` on form row when checking response limit                                          |
 | 11    | **Transactional write** — `createWithSubmissionGuards()` in a DB transaction (limit + dedup + insert)                     |
 | 12    | **DB constraints** — unique `submission_id`; partial unique `(form_id, ip_hash)`                                          |

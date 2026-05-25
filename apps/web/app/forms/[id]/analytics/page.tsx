@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 import { DossierConfirmDialog } from "~/components/dossier/confirm-dialog";
-import { dossierNavClass } from "~/components/dossier/nav-link";
+import { dossierNavClass, DossierNavLink } from "~/components/dossier/nav-link";
 import { DossierPageShell } from "~/components/dossier/page-shell";
 import { Spinner } from "~/components/ui/spinner";
 import { useAnalyticsLive } from "~/hooks/use-analytics-live";
@@ -145,12 +145,9 @@ export default function FormAnalyticsPage() {
         </p>
 
         <div className="mt-4 flex flex-wrap gap-4">
-          <Link
-            href={`/forms/${formId}/responses`}
-            className="dossier-nav text-[var(--color-brass)] hover:text-[var(--color-stamp)]"
-          >
+          <DossierNavLink href={`/forms/${formId}/responses`} variant="secondary">
             VIEW RESPONSES →
-          </Link>
+          </DossierNavLink>
           <DossierConfirmDialog
             title="EXPORT RESPONSES"
             description={`Download the recorded responses for "${form?.title ?? "this dossier"}" as a CSV file?`}
